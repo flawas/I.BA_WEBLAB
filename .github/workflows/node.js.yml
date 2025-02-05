@@ -21,12 +21,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-
-
-      uses: actions/setup-node@v4
+    - uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        cache-dependency-path: subdir/package-lock.json
+        node-version: 20
         cache: 'npm'
     - run: cd /src/techradar
     - run: npm ci
