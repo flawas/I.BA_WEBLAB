@@ -86,7 +86,7 @@ erDiagram
 
 ## Technologiestack
 - Frontend: Angular
-- Backend: Node.js
+- Backend: Nest JS
 - Datenbank: MongoDB
 
 ## Authors
