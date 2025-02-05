@@ -88,7 +88,6 @@ erDiagram
 - Angular
 - MongoDB
 
-
 ## Authors
 - [@flawas](https://www.github.com/flawas)
 
