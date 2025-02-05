@@ -55,28 +55,6 @@ Der Techradar ist ein Projekt der HSLU für das Modul I.BA_WEBLAB. Als Grundlage
 
 
 ## Datenbankschema
-
-### Tabelle category
-- id
-- name
-- description
-
-### Tabelle ring
-- id
-- name
-- description
-
-
-### Tabelle technologies
-- id
-- date
-- name
-- fk_category
-- fk_ring
-- description
-- description_categorisation
-
-### ER Diagramm
 ```mermaid
 erDiagram
 
@@ -105,6 +83,11 @@ erDiagram
     }
 
 ```
+
+## Technologiestack
+- Angular
+- MongoDB
+
 
 ## Authors
 - [@flawas](https://www.github.com/flawas)
