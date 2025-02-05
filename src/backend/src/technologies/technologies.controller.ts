@@ -6,8 +6,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { TechnologiesService } from './technologies.service';
-import {CreateTechnologiesDto} from "./dto/create-technologies.dto";
-import {TechnologiesEntity} from "./entities/technologies.entity";
+import { CreateTechnologiesDto } from './dto/create-technologies.dto';
+import { TechnologiesEntity } from './entities/technologies.entity';
+import {IsUUID} from "class-validator";
 
 @ApiBearerAuth()
 @ApiTags('technologies')
@@ -22,13 +23,25 @@ export class TechnologiesController {
     return this.technologiesService.create(createTechnologiesDto);
   }
 
-  @Get(':id')
+  @Get(':uuid')
+  @ApiOperation({ summary: 'Get a specific technlogy' })
   @ApiResponse({
     status: 200,
     description: 'The found record',
     type: TechnologiesEntity,
   })
-  findOne(@Param('id') id: string): TechnologiesEntity {
-    return this.technologiesService.findOne(+id);
+  findOne(@Param('uuid') uuid: string): TechnologiesEntity {
+    return this.technologiesService.findOne(uuid);
+  }
+
+  @Get()
+  @ApiOperation({ summary: 'Get all technologies' })
+  @ApiResponse({
+    status: 200,
+    description: 'All technologies',
+    type: [TechnologiesEntity],
+  })
+  findAll(): TechnologiesEntity[] {
+    return this.technologiesService.findAll();
   }
 }

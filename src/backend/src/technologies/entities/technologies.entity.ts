@@ -1,10 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class TechnologiesEntity {
-  /**
-   * The name of the Cat
-   * @example Kitty
-   */
+
+  @ApiProperty({
+    example: '6ba4248f-ffb9-4ff1-8d18-847f4917e6c5',
+    description: 'The id of the technology'
+  })
+  uuid: string;
+
+  @ApiProperty({
+    example: '2025-02-05T19:44:56.363Z',
+    description: 'The date of registration of the technology'
+  })
+  date: Date;
+
   @ApiProperty({
     example: 'Microsoft Entra ID',
     description: 'The name of the technology'

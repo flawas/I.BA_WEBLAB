@@ -67,7 +67,7 @@ erDiagram
         number fk_ring
         number fk_category
         string description
-        sring description_categorisation
+        string description_categorisation
     }
     
     ring{
