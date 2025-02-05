@@ -1,5 +1,5 @@
 
-# Techradar
+# Technologieradar
 
 Der Techradar ist ein Projekt der HSLU für das Modul I.BA_WEBLAB. Als Grundlage für die Aufgabenstellung dient der [Projektbeschrieb](https://github.com/web-programming-lab/web-programming-lab-projekt/blob/main/Technologie-Radar.md), welcher auf Github öffentlich einsehbar ist.
 
@@ -85,8 +85,9 @@ erDiagram
 ```
 
 ## Technologiestack
-- Angular
-- MongoDB
+- Frontend: Angular
+- Backend: Node.js
+- Datenbank: MongoDB
 
 ## Authors
 - [@flawas](https://www.github.com/flawas)
