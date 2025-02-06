@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -6,32 +6,22 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { CategoriesService } from './categories.service';
-import { CreateCategoriesDto} from "./dto/create-technologies.dto";
+import {CreateCategoriesDto} from "./dto/create-categories.dto";
 import { CategoriesEntity } from './entities/categories.entity';
-import {IsUUID} from "class-validator";
+import {UpdateCategoriesDto} from "./dto/update-categories.dto";
 
 @ApiBearerAuth()
 @ApiTags('categories')
 @Controller('categories')
 export class CategoriesController {
-  constructor(private readonly categoriesService: CategoriesService) {}
+  constructor(private readonly ringsService: CategoriesService) {}
 
   @Post()
   @ApiOperation({ summary: 'Create category' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async create(@Body() createTechnologiesDto: CreateCategoriesDto): Promise<CategoriesEntity> {
-    return this.categoriesService.create(createTechnologiesDto);
-  }
-
-  @Get(':uuid')
-  @ApiOperation({ summary: 'Get a specific category' })
-  @ApiResponse({
-    status: 200,
-    description: 'The found category',
-    type: CategoriesEntity,
-  })
-  findOne(@Param('uuid') uuid: string): CategoriesEntity {
-    return this.categoriesService.findOne(uuid);
+  @ApiResponse({ status: 201, description: 'Category created', type: CategoriesEntity })
+  async create(@Body() createCategoriesDto: CreateCategoriesDto): Promise<CategoriesEntity> {
+    return this.ringsService.create(createCategoriesDto);
   }
 
   @Get()
@@ -39,9 +29,42 @@ export class CategoriesController {
   @ApiResponse({
     status: 200,
     description: 'All categories',
-    type: [CategoriesEntity],
+    type: CategoriesEntity,
   })
-  findAll(): CategoriesEntity[] {
-    return this.categoriesService.findAll();
+  findAll(): Promise<CategoriesEntity[]> {
+    return this.ringsService.findAll();
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: 'Get a specific category' })
+  @ApiResponse({
+    status: 200,
+    description: 'The found category',
+    type: CategoriesEntity,
+  })
+  findOne(@Param('id') id: string): Promise<CategoriesEntity> {
+    return this.ringsService.findOne(id);
+  }
+  
+  @Patch(':id')
+  @ApiOperation({ summary: 'Update a specific category' })
+  @ApiResponse({
+    status: 200,
+    description: 'The updated category',
+    type: CategoriesEntity,
+  })
+  update(@Param('id') id: string, @Body() updateRingsDto: UpdateCategoriesDto): Promise<CategoriesEntity> {
+    return this.ringsService.update(id, updateRingsDto);
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete a specific category' })
+  @ApiResponse({
+    status: 200,
+    description: 'Delete a category',
+    type: CategoriesEntity,
+  })
+  delete(@Param('id') id: string): Promise<CategoriesEntity> {
+    return this.ringsService.delete(id);
   }
 }

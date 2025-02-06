@@ -1,23 +1,23 @@
 import { ApiProperty } from '@nestjs/swagger';
+import {Document} from "mongoose";
+import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
 
-export class CategoriesEntity {
-
-  @ApiProperty({
-    example: '6ba4248f-ffb9-4ff1-8d18-847f4917e6c5',
-    description: 'The id of the category'
-  })
-  uuid: string;
+@Schema()
+export class CategoriesEntity extends Document{
 
   @ApiProperty({
     example: 'Database',
-    description: 'The type of the category'
+    description: 'The name of the category'
   })
+  @Prop({ required: true })
   name: string;
 
   @ApiProperty({
-    example: 'The database is used to strucutred store data',
+    example: 'The database is used to structured store data',
     description: 'The description of the category'
   })
+  @Prop()
   description: string;
 
 }
+export const RingsSchema = SchemaFactory.createForClass(CategoriesEntity);

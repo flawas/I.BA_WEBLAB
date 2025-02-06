@@ -23,15 +23,15 @@ export class TechnologiesController {
     return this.technologiesService.create(createTechnologiesDto);
   }
 
-  @Get(':uuid')
+  @Get(':id')
   @ApiOperation({ summary: 'Get a specific technlogy' })
   @ApiResponse({
     status: 200,
     description: 'The found record',
     type: TechnologiesEntity,
   })
-  findOne(@Param('uuid') uuid: string): TechnologiesEntity {
-    return this.technologiesService.findOne(uuid);
+  findOne(@Param('id') id: string): Promise<TechnologiesEntity> {
+    return this.technologiesService.findOne(id);
   }
 
   @Get()
@@ -41,30 +41,30 @@ export class TechnologiesController {
     description: 'All technologies',
     type: [TechnologiesEntity],
   })
-  findAll(): TechnologiesEntity[] {
+  findAll(): Promise<TechnologiesEntity[]> {
     return this.technologiesService.findAll();
   }
 
-  @Patch(':uuid')
+  @Patch(':id')
   @ApiOperation({ summary: 'Update a specific technology' })
   @ApiResponse({
       status: 200,
       description: 'The found record',
       type: TechnologiesEntity,
   })
-  update(@Param('uuid') uuid: string, @Body() updateTechnologiesDto: UpdateTechnologiesDto): TechnologiesEntity {
-      return this.technologiesService.update(uuid, updateTechnologiesDto);
+  update(@Param('id') id: string, @Body() updateTechnologiesDto: UpdateTechnologiesDto): Promise<TechnologiesEntity> {
+      return this.technologiesService.update(id, updateTechnologiesDto);
   }
 
-  @Delete(':uuid')
+  @Delete(':id')
   @ApiOperation({ summary: 'Delete a specific technology' })
   @ApiResponse({
       status: 200,
       description: 'The found record',
       type: TechnologiesEntity,
   })
-  delete(@Param('uuid') uuid: string): TechnologiesEntity {
-    return this.technologiesService.delete(uuid);
+  delete(@Param('id') id: string): Promise<TechnologiesEntity> {
+    return this.technologiesService.delete(id);
   }
 
 }

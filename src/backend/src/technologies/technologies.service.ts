@@ -1,19 +1,22 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { TechnologiesEntity } from './entities/technologies.entity';
 import { CreateTechnologiesDto } from './dto/create-technologies.dto';
-import { v4 as uuidv4 } from 'uuid';
 import {ApiBearerAuth} from "@nestjs/swagger";
 import {UpdateTechnologiesDto} from "./dto/update-technologies.dto";
+import {InjectModel} from "@nestjs/mongoose";
+import {Model} from "mongoose";
 
 @ApiBearerAuth()
 @Injectable()
 export class TechnologiesService {
-  private technologiesEntities: TechnologiesEntity[] = [];
 
-  create(createTechnologiesDto: CreateTechnologiesDto): TechnologiesEntity {
+  constructor(
+      @InjectModel(TechnologiesEntity.name) private readonly technologiesModel: Model<TechnologiesEntity>,
+  ) {}
+
+  async create(createTechnologiesDto: CreateTechnologiesDto): Promise<TechnologiesEntity> {
     try{
-      const dto = new TechnologiesEntity();
-      dto.uuid = uuidv4();
+      const dto = new this.technologiesModel(createTechnologiesDto);
       dto.creationDate = new Date();
       dto.lastUpdate = new Date();
       dto.name = createTechnologiesDto.name;
@@ -22,27 +25,18 @@ export class TechnologiesService {
       dto.description_categorisation = createTechnologiesDto.description_categorisation;
       dto.fk_ring = createTechnologiesDto.fk_ring;
       dto.published = false;
-      this.technologiesEntities.push(dto);
-      console.log(`Technology with uuid ${dto.uuid} created`);
-      return dto;
+      console.log(`Technology with _id ${dto._id} created`);
+      return dto.save();
     } catch (error) {
       console.error('Technology could not be created');
       throw new Error('Technology could not be created');
     }
   }
 
-  findOne(uuid: string): TechnologiesEntity {
+  async findOne(_id: string): Promise<TechnologiesEntity> {
+    const technology = await this.technologiesModel.findById(_id).exec();
     try{
-        if (this.technologiesEntities.length === 0) {
-            console.error('No technologies found');
-            throw new NotFoundException('No technologies found');
-        }
-      const technology = this.technologiesEntities.find(tech => tech.uuid === uuid);
-      if (!technology) {
-        console.error(`Technology with uuid ${uuid} not found`);
-        throw new NotFoundException(`Technology with uuid ${uuid} not found`);
-      }
-      console.log(`Technology with uuid ${uuid} found`);
+      console.log(`Technology with _id ${_id} found`);
       return technology;
     } catch {
         console.error('No technologies found');
@@ -50,26 +44,21 @@ export class TechnologiesService {
     }
   }
 
-  findAll(): TechnologiesEntity[] {
+  findAll(): Promise<TechnologiesEntity[]> {
     try{
-        if (this.technologiesEntities.length === 0) {
-            console.error('No technologies found');
-            throw new NotFoundException('No technologies found');
-        } else {
-            console.log('Get all technologies');
-            return this.technologiesEntities;
-        }
-    } catch {
-        console.error('No technologies found');
-        throw new NotFoundException('No technologies found');
+      console.log('Get all technologies');
+      return this.technologiesModel.find().exec();
+    } catch (error) {
+      console.error('No technologies found');
+      throw new NotFoundException('No technologies found');
     }
   }
 
-  update(uuid: string, updateTechnology: UpdateTechnologiesDto): TechnologiesEntity {
-    const technology = this.technologiesEntities.find(tech => tech.uuid === uuid);
+  async update(_id: string, updateTechnology: UpdateTechnologiesDto): Promise<TechnologiesEntity> {
+    const technology = await this.technologiesModel.findById(_id).exec();
     if (!technology) {
-      console.log(`Technology with uuid ${uuid} not found during technology update`);
-      throw new NotFoundException(`Technology with uuid ${uuid} not found`);
+      console.log(`Technology with _id ${_id} not found during technology update`);
+      throw new NotFoundException(`Technology with _id ${_id} not found`);
     }
     try {
       technology.name = updateTechnology.name;
@@ -80,37 +69,38 @@ export class TechnologiesService {
       technology.lastUpdate = new Date();
 
       technology.published = updateTechnology.published;
+
       // Check if the foreign keys are set
       technology.fk_ring = updateTechnology.fk_ring;
       technology.fk_category = updateTechnology.fk_category;
-      if (technology.fk_ring === undefined || technology.fk_ring === ""
-          || technology.fk_category === undefined || technology.fk_category === "") {
+      if (technology.fk_ring === undefined || technology.fk_ring === ''
+          || technology.fk_category === undefined || technology.fk_category === '') {
         technology.published = false;
-        console.log(`Technology with uuid ${uuid} updated but not published`);
+        console.log(`Technology with _id ${_id} updated but not published`);
       } else {
-        console.log(`Technology with uuid ${uuid} updated and published`);
+        console.log(`Technology with _id ${_id} updated and published`);
       }
-
+      await this.technologiesModel.findByIdAndUpdate(_id, technology, { new: true }).exec();
       return technology;
     } catch (error) {
-      console.error(`Technology with uuid ${uuid} could not be updated`);
-      throw new Error(`Technology with uuid ${uuid} could not be updated`);
+      console.error(`Technology with _id ${_id} could not be updated`);
+      throw new Error(`Technology with _id ${_id} could not be updated`);
     }
   }
 
-  delete(uuid: string): TechnologiesEntity {
-    const technology = this.technologiesEntities.find(tech => tech.uuid === uuid);
+  async delete(_id: string): Promise<TechnologiesEntity> {
+    const technology = await this.technologiesModel.findById(_id).exec();
     if (!technology) {
-      console.error(`Technology with uuid ${uuid} not found during technology deletion`);
-      throw new NotFoundException(`Technology with uuid ${uuid} not found`);
+      console.error(`Technology with _id ${_id} not found during technology deletion`);
+      throw new NotFoundException(`Technology with _id ${_id} not found`);
     }
     try {
-      this.technologiesEntities = this.technologiesEntities.filter(tech => tech.uuid !== uuid);
-      console.log(`Technology with uuid ${uuid} deleted`);
+      const technology = await this.technologiesModel.findByIdAndDelete(_id).exec();;
+      console.log(`Technology with _id ${_id} deleted`);
       return technology;
     } catch (error) {
-      console.error(`Technology with uuid ${uuid} could not be deleted`);
-      throw new Error(`Technology with uuid ${uuid} could not be deleted`);
+      console.error(`Technology with _id ${_id} could not be deleted`);
+      throw new Error(`Technology with _id ${_id} could not be deleted`);
     }
   }
 }
