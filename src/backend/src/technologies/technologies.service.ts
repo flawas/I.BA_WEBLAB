@@ -73,12 +73,16 @@ export class TechnologiesService {
     }
     try {
       technology.name = updateTechnology.name;
-      technology.fk_ring = updateTechnology.fk_ring;
-      technology.fk_category = updateTechnology.fk_category;
       technology.description = updateTechnology.description;
       technology.description_categorisation = updateTechnology.description_categorisation;
+
+      // Update the last update date
       technology.lastUpdate = new Date();
+
       technology.published = updateTechnology.published;
+      // Check if the foreign keys are set
+      technology.fk_ring = updateTechnology.fk_ring;
+      technology.fk_category = updateTechnology.fk_category;
       if (technology.fk_ring === undefined || technology.fk_ring === ""
           || technology.fk_category === undefined || technology.fk_category === "") {
         technology.published = false;
@@ -86,6 +90,7 @@ export class TechnologiesService {
       } else {
         console.log(`Technology with uuid ${uuid} updated and published`);
       }
+
       return technology;
     } catch (error) {
       console.error(`Technology with uuid ${uuid} could not be updated`);
