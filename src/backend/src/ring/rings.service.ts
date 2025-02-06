@@ -1,30 +1,34 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { RingEntity } from './entities/ring.entity';
 import { CreateRingsDto } from './dto/create-rings.dto';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class RingsService {
-  private readonly ringEntities: RingEntity[] = [];
+  private ringEntities: RingEntity[] = [];
 
-  create(createCategoriesDto: CreateRingsDto): RingEntity {
+  create(createRingsDto: CreateRingsDto): RingEntity {
     const dto = new RingEntity();
     dto.uuid = uuidv4();
-    dto.name = createCategoriesDto.name;
-    dto.description = createCategoriesDto.description;
+    dto.name = createRingsDto.name;
+    dto.description = createRingsDto.description;
     this.ringEntities.push(dto);
+    console.log(`Ring with uuid ${dto.uuid} created`);
     return dto;
   }
 
   findOne(uuid: string): RingEntity {
-    const technology = this.ringEntities.find(tech => tech.uuid === uuid);
-    if (!technology) {
-      throw new NotFoundException(`Technology with uuid ${uuid} not found`);
+    const ringEntity = this.ringEntities.find(ring => ring.uuid === uuid);
+    if (!ringEntity) {
+      console.error(`Ring with uuid ${uuid} not found during specific ring search`);
+      throw new NotFoundException(`Ring with uuid ${uuid} not found`);
     }
-    return technology;
+    console.log(`Ring with uuid ${uuid} found`);
+    return ringEntity;
   }
 
   findAll(): RingEntity[] {
+    console.log('Get all rings');
     return this.ringEntities;
   }
 }

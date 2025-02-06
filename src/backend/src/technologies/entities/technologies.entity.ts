@@ -15,6 +15,12 @@ export class TechnologiesEntity {
   date: Date;
 
   @ApiProperty({
+    example: '2025-02-05T19:44:56.363Z',
+    description: 'The last update of the technology'
+  })
+  lastUpdate : Date;
+
+  @ApiProperty({
     example: 'Microsoft Entra ID',
     description: 'The name of the technology'
   })
@@ -24,13 +30,13 @@ export class TechnologiesEntity {
     example: '1',
     description: 'The foreign key of the ring'
   })
-  fk_ring: number;
+  fk_ring: string;
 
   @ApiProperty({
     example: '1',
     description: 'The foreign key of the category'
   })
-  fk_category: number;
+  fk_category: string;
 
   @ApiProperty({
     example: 'A product to manage users in the Microsoft cloud environemnt',

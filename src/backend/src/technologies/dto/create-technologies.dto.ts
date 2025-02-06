@@ -4,11 +4,11 @@ export class CreateTechnologiesDto {
   @IsString()
   readonly name: string;
 
-  @IsInt()
-  readonly fk_ring: number;
+  @IsString()
+  readonly fk_ring: string;
 
-  @IsInt()
-  readonly fk_category: number;
+  @IsString()
+  readonly fk_category: string;
 
   @IsString()
   readonly description: string;

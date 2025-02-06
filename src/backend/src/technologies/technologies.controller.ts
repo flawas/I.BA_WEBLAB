@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -8,7 +8,7 @@ import {
 import { TechnologiesService } from './technologies.service';
 import { CreateTechnologiesDto } from './dto/create-technologies.dto';
 import { TechnologiesEntity } from './entities/technologies.entity';
-import {IsUUID} from "class-validator";
+import {UpdateTechnologiesDto} from "./dto/update-technologies.dto";
 
 @ApiBearerAuth()
 @ApiTags('technologies')
@@ -42,6 +42,30 @@ export class TechnologiesController {
     type: [TechnologiesEntity],
   })
   findAll(): TechnologiesEntity[] {
+    console.log('Get all technologies');
     return this.technologiesService.findAll();
   }
+
+  @Patch(':uuid')
+  @ApiOperation({ summary: 'Update a specific technology' })
+  @ApiResponse({
+      status: 200,
+      description: 'The found record',
+      type: TechnologiesEntity,
+  })
+  update(@Param('uuid') uuid: string, @Body() updateTechnologiesDto: UpdateTechnologiesDto): TechnologiesEntity {
+      return this.technologiesService.update(uuid, updateTechnologiesDto);
+  }
+
+  @Delete(':uuid')
+  @ApiOperation({ summary: 'Delete a specific technology' })
+  @ApiResponse({
+      status: 200,
+      description: 'The found record',
+      type: TechnologiesEntity,
+  })
+  delete(@Param('uuid') uuid: string): TechnologiesEntity {
+    return this.technologiesService.delete(uuid);
+  }
+
 }
