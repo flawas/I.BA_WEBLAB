@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UpdateRingsDto } from './dto/update-rings.dto';
 import {ApiBearerAuth} from "@nestjs/swagger";
+import {TechnologiesEntity} from "../technologies/entities/technologies.entity";
 
 @ApiBearerAuth()
 @Injectable()
@@ -12,6 +13,7 @@ export class RingsService {
 
   constructor(
       @InjectModel(RingEntity.name) private readonly ringsModel: Model<RingEntity>,
+      @InjectModel(TechnologiesEntity.name) private readonly technologiesModel: Model<TechnologiesEntity>,
   ) {}
 
   async create(createRingsDto: CreateRingsDto): Promise<RingEntity> {
@@ -60,6 +62,13 @@ export class RingsService {
 
   async delete(_id: string): Promise<RingEntity> {
     try {
+      // Check if any technology item has the same id in the fk_ring field
+      const relatedTechnologies = await this.technologiesModel.find({ fk_ring: _id }).exec();
+      if (relatedTechnologies.length > 0) {
+        throw new InternalServerErrorException(`Cannot delete ring with id ${_id} because it is referenced by technology items`);
+      }
+
+      // Proceed with the deletion if no related technology items are found
       const ring = await this.ringsModel.findByIdAndDelete(_id).exec();
       if (!ring) {
         throw new NotFoundException(`Ring with id ${_id} not found`);
@@ -71,5 +80,4 @@ export class RingsService {
       throw new InternalServerErrorException('Error deleting ring');
     }
   }
-
 }
