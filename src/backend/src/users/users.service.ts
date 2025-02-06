@@ -19,10 +19,13 @@ export class UsersService {
     const newUser = new this.userModel(createUserDto);
     const passsword = newUser.password
     newUser.password = await this.passwordService.create({plainTextPassword: passsword});
+    newUser.roles = ['user'];
+    console.log('Created user', newUser.username);
     return await newUser.save();
   }
 
   async findOneByUsername(username: string): Promise<UsersEntity | undefined> {
+    console.log('Finding user by username', username);
     return this.userModel.findOne({ username }).exec();
   }
 }

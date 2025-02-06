@@ -26,5 +26,12 @@ export class UsersEntity extends Document{
     @Prop({ required: true })
     mail: string;
 
+    @ApiProperty({
+        example: 'Admin',
+        description: 'The role of the user'
+    })
+    @Prop({ required: true })
+    roles: string[];
+
 }
 export const UsersSchema = SchemaFactory.createForClass(UsersEntity);

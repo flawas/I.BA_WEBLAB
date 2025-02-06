@@ -15,7 +15,7 @@ export class AuthService {
     const user = await this.usersService.findOneByUsername(username);
 
     if(await this.passwordService.compare(plainTextPassword, user.password)){
-      const payload = { username: user.username, sub: user._id };
+      const payload = { username: user.username, sub: user._id, roles: user.roles };
       return {
         access_token: await this.jwtService.signAsync(payload),
       };

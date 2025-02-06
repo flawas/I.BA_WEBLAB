@@ -10,11 +10,11 @@ async function bootstrap() {
     .setDescription('The technologies API description')
     .setVersion('1.0')
     .addTag('technologies')
-      .addBearerAuth({
+    .addBearerAuth({
         type: 'http',
         scheme: 'bearer',
         bearerFormat: 'JWT',
-      }, 'Access Token:')
+    }, 'Access Token:')
     .build();
 
   const document = SwaggerModule.createDocument(app, options);

@@ -9,6 +9,8 @@ import { CategoriesService } from './categories.service';
 import {CreateCategoriesDto} from "./dto/create-categories.dto";
 import { CategoriesEntity } from './entities/categories.entity';
 import {UpdateCategoriesDto} from "./dto/update-categories.dto";
+import {Roles} from "../roles/decorators/roles.decorator";
+import {Role} from "../roles/roles.enum";
 
 @ApiBearerAuth()
 @ApiTags('categories')
@@ -20,6 +22,7 @@ export class CategoriesController {
   @ApiOperation({ summary: 'Create category' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 201, description: 'Category created', type: CategoriesEntity })
+  @Roles(Role.Admin)
   async create(@Body() createCategoriesDto: CreateCategoriesDto): Promise<CategoriesEntity> {
     return this.ringsService.create(createCategoriesDto);
   }

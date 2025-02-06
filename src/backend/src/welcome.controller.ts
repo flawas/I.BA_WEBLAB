@@ -1,8 +1,11 @@
 import { Controller, Get } from '@nestjs/common';
 import {Public} from "./auth/decorators/public.decorator";
+import {Roles} from "./roles/decorators/roles.decorator";
+import {Role} from "./roles/roles.enum";
 
 @Public()
 @Controller('')
+@Roles(Role.Admin)
 export class WelcomeController {
     @Get()
     getWelcomeMessage(): string {

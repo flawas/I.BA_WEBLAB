@@ -8,7 +8,8 @@ import {
 import {CreateUsersDto} from "./dto/create-users.dto";
 import {UsersService} from "./users.service";
 import {UsersEntity} from "./entities/users.entity";
-import {Public} from "../auth/decorators/public.decorator";
+import {Roles} from "../roles/decorators/roles.decorator";
+import {Role} from "../roles/roles.enum";
 
 @ApiBearerAuth()
 @ApiTags('users')
@@ -31,6 +32,7 @@ export class UsersController {
         description: 'Return one user',
         type: UsersEntity,
     })
+    @ApiResponse({ status: 404, description: 'User not found' })
     findOneByUsername(@Param('username') username: string): Promise<UsersEntity> {
         return this.userService.findOneByUsername(username);
     }
