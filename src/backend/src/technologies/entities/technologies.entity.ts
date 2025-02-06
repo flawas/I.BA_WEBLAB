@@ -12,7 +12,7 @@ export class TechnologiesEntity {
     example: '2025-02-05T19:44:56.363Z',
     description: 'The date of registration of the technology'
   })
-  date: Date;
+  creationDate: Date;
 
   @ApiProperty({
     example: '2025-02-05T19:44:56.363Z',
@@ -49,4 +49,10 @@ export class TechnologiesEntity {
     description: 'The description of the categorisation',
   })
   description_categorisation: string;
+
+  @ApiProperty({
+    example: 'true',
+    description: 'The published state of the technology, Default: false'
+  })
+  published: boolean
 }

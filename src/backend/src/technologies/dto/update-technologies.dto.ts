@@ -1,4 +1,4 @@
-import { IsInt, IsString } from 'class-validator';
+import {IsBoolean, IsInt, IsString} from 'class-validator';
 
 export class UpdateTechnologiesDto {
     @IsString()
@@ -15,4 +15,7 @@ export class UpdateTechnologiesDto {
 
     @IsString()
     readonly description_categorisation: string;
+
+    @IsBoolean()
+    readonly published: boolean;
 }

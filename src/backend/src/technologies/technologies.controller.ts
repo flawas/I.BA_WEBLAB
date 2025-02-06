@@ -42,7 +42,6 @@ export class TechnologiesController {
     type: [TechnologiesEntity],
   })
   findAll(): TechnologiesEntity[] {
-    console.log('Get all technologies');
     return this.technologiesService.findAll();
   }
 

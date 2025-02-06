@@ -14,13 +14,14 @@ export class TechnologiesService {
     try{
       const dto = new TechnologiesEntity();
       dto.uuid = uuidv4();
-      dto.date = new Date();
+      dto.creationDate = new Date();
       dto.lastUpdate = new Date();
       dto.name = createTechnologiesDto.name;
       dto.description = createTechnologiesDto.description;
       dto.fk_category = createTechnologiesDto.fk_category;
       dto.description_categorisation = createTechnologiesDto.description_categorisation;
       dto.fk_ring = createTechnologiesDto.fk_ring;
+      dto.published = false;
       this.technologiesEntities.push(dto);
       console.log(`Technology with uuid ${dto.uuid} created`);
       return dto;
@@ -77,7 +78,14 @@ export class TechnologiesService {
       technology.description = updateTechnology.description;
       technology.description_categorisation = updateTechnology.description_categorisation;
       technology.lastUpdate = new Date();
-      console.log(`Technology with uuid ${uuid} updated`);
+      technology.published = updateTechnology.published;
+      if (technology.fk_ring === undefined || technology.fk_ring === ""
+          || technology.fk_category === undefined || technology.fk_category === "") {
+        technology.published = false;
+        console.log(`Technology with uuid ${uuid} updated but not published`);
+      } else {
+        console.log(`Technology with uuid ${uuid} updated and published`);
+      }
       return technology;
     } catch (error) {
       console.error(`Technology with uuid ${uuid} could not be updated`);
