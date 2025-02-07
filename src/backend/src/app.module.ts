@@ -19,8 +19,10 @@ import {APP_GUARD} from "@nestjs/core";
     },
   ],
 
-  imports: [MongooseModule.forRoot('mongodb://localhost/techradardb'), TechnologiesModule,
-    CategoriesModule, RingsModule, AuthModule, UsersModule, PasswordsModule],
+  imports: [
+      MongooseModule.forRoot(process.env.MONGO_URL || 'mongodb://localhost/techradardb'),
+    TechnologiesModule, CategoriesModule, RingsModule, AuthModule,
+    UsersModule, PasswordsModule],
   controllers: [WelcomeController],
 })
 export class AppModule {}

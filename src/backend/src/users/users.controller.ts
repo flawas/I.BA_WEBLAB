@@ -1,6 +1,5 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post} from '@nestjs/common';
+import {Body, Controller, Get, Param, Post} from '@nestjs/common';
 import {
-    ApiBearerAuth,
     ApiOperation,
     ApiResponse,
     ApiTags,
@@ -8,15 +7,17 @@ import {
 import {CreateUsersDto} from "./dto/create-users.dto";
 import {UsersService} from "./users.service";
 import {UsersEntity} from "./entities/users.entity";
+import {Public} from "../auth/decorators/public.decorator";
 import {Roles} from "../roles/decorators/roles.decorator";
 import {Role} from "../roles/roles.enum";
 
-@ApiBearerAuth()
+
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
     constructor(private readonly userService: UsersService) {}
 
+    @Public()
     @Post()
     @ApiOperation({ summary: 'Create user' })
     @ApiResponse({ status: 403, description: 'Forbidden.' })
@@ -25,6 +26,7 @@ export class UsersController {
         return this.userService.create(createUsersDto);
     }
 
+    @Roles(Role.Admin)
     @Get(':username')
     @ApiOperation({ summary: 'Get a specific user by username' })
     @ApiResponse({
