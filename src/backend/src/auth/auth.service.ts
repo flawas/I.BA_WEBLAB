@@ -23,4 +23,17 @@ export class AuthService {
       throw new UnauthorizedException();
     }
   }
+
+  async isTokenValid(token: string): Promise<boolean> {
+    this.jwtService.verify(token);
+    try {
+
+      console.log(token);
+      console.log(this.jwtService.verify(token));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
 }

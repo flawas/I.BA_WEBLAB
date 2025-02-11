@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Request} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -41,8 +41,8 @@ export class TechnologiesController {
     description: 'All technologies',
     type: [TechnologiesEntity],
   })
-  findAll(): Promise<TechnologiesEntity[]> {
-    return this.technologiesService.findAll();
+  findAll(@Request() req): Promise<TechnologiesEntity[]> {
+    return this.technologiesService.findAll(req);
   }
 
   @Patch(':id')

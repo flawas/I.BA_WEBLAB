@@ -25,4 +25,12 @@ export class AuthController {
   getProfile(@Request() req) {
     return req.user;
   }
+
+  @Get('validate-token')
+  validateToken(@Request() req) {
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(' ')[1]; // Extract the token
+    console.log(token);
+    return this.authService.isTokenValid(token);
+  }
 }

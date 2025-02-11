@@ -1,0 +1,37 @@
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import {Router} from '@angular/router';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CategoryService {
+
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {}
+
+  getCategories(): Observable<any> {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get('http://localhost:3000/categories', { headers });
+  }
+
+  getCategory(categoryId: string): Observable<any> {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get('http://localhost:3000/categories/' + categoryId, { headers });
+  }
+
+  getCategoriesCount(): Observable<number> {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.getCategories().pipe(
+      map((data: any[]) => data.filter(categories => categories._id).length)
+    );
+  }
+
+}

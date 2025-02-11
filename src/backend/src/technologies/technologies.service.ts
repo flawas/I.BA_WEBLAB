@@ -5,6 +5,9 @@ import {ApiBearerAuth} from "@nestjs/swagger";
 import {UpdateTechnologiesDto} from "./dto/update-technologies.dto";
 import {InjectModel} from "@nestjs/mongoose";
 import {Model} from "mongoose";
+import {request} from "express";
+import {JwtService} from "@nestjs/jwt";
+import {AuthService} from "../auth/auth.service";
 
 @ApiBearerAuth()
 @Injectable()
@@ -12,6 +15,7 @@ export class TechnologiesService {
 
   constructor(
       @InjectModel(TechnologiesEntity.name) private readonly technologiesModel: Model<TechnologiesEntity>,
+      private jwtService: JwtService
   ) {}
 
   async create(createTechnologiesDto: CreateTechnologiesDto): Promise<TechnologiesEntity> {
@@ -44,10 +48,18 @@ export class TechnologiesService {
     }
   }
 
-  findAll(): Promise<TechnologiesEntity[]> {
-    try{
-      console.log('Get all technologies');
-      return this.technologiesModel.find().exec();
+  findAll(request): Promise<TechnologiesEntity[]> {
+    try {
+      const authHeader = request.headers.authorization;
+      const token = authHeader && authHeader.split(' ')[1];
+      const decodedToken = this.jwtService.decode(token) as any;
+      const isAdmin = decodedToken?.roles?.includes('admin');
+      console.log('Get all technologies based on role:', isAdmin ? 'admin' : 'user');
+      if (isAdmin) {
+        return this.technologiesModel.find().exec();
+      } else {
+        return this.technologiesModel.find({ published: true }).exec();
+      }
     } catch (error) {
       console.error('No technologies found');
       throw new NotFoundException('No technologies found');

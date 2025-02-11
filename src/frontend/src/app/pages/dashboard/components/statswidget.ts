@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, ElementRef, Renderer2} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {TechnologyService} from '../../service/technology.service';
+import {CategoryService} from '../../service/category.service';
 
 @Component({
     standalone: true,
@@ -10,14 +12,14 @@ import { CommonModule } from '@angular/common';
                 <div class="flex justify-between mb-4">
                     <div>
                         <span class="block text-muted-color font-medium mb-4">Technologies</span>
-                        <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">152 Technologies</div>
+                        <div class="text-surface-900 dark:text-surface-0 font-medium text-xl" id="techcountPublished"></div>
                     </div>
                     <div class="flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
                         <i class="pi pi-microchip-ai text-blue-500 !text-xl"></i>
                     </div>
                 </div>
-                <span class="text-primary font-medium">12 </span>
-                <span class="text-muted-color">technologies in draft</span>
+                <span class="text-primary font-medium" id="techcountDraft"></span>
+                <span class="text-muted-color"> technologies in draft</span>
             </div>
         </div>
         <div class="col-span-12 lg:col-span-6 xl:col-span-3">
@@ -25,7 +27,7 @@ import { CommonModule } from '@angular/common';
                 <div class="flex justify-between mb-4">
                     <div>
                         <span class="block text-muted-color font-medium mb-4">Categories</span>
-                        <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">12 Categories</div>
+                        <div class="text-surface-900 dark:text-surface-0 font-medium text-xl" id="categoriesPublished"></div>
                     </div>
                     <div class="flex items-center justify-center bg-orange-100 dark:bg-orange-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
                         <i class="pi pi-bars text-orange-500 !text-xl"></i>
@@ -67,4 +69,31 @@ import { CommonModule } from '@angular/common';
         </div>
         `
 })
-export class StatsWidget {}
+export class StatsWidget {
+
+  constructor(
+    private techService: TechnologyService,
+    private categoryService: CategoryService,
+    private renderer: Renderer2,
+    private el: ElementRef
+  ) {}
+
+  ngOnInit() {
+    this.techService.getTechnolgiesCountPublished().subscribe((count) => {
+      const techCountElement = this.el.nativeElement.querySelector('#techcountPublished');
+      this.renderer.setProperty(techCountElement, 'innerText', count + " Technologies");
+    });
+
+    this.techService.getTechnolgiesCountDraft().subscribe((count) => {
+      const techCountElement = this.el.nativeElement.querySelector('#techcountDraft');
+      this.renderer.setProperty(techCountElement, 'innerText', count);
+    });
+
+    this.categoryService.getCategoriesCount().subscribe((count) => {
+      const categoriesCountElement = this.el.nativeElement.querySelector('#categoriesPublished');
+      this.renderer.setProperty(categoriesCountElement, 'innerText', count + " Categories");
+    });
+
+  }
+
+}

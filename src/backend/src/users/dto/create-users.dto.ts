@@ -9,5 +9,8 @@ export class CreateUsersDto {
     readonly password: string;
 
     @IsEmail()
-    readonly email: string;
+    readonly mail: string;
+
+    @IsString()
+    readonly roles: string[];
 }

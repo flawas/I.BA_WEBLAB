@@ -1,7 +1,9 @@
 # Arbeitsjournal
 
-| Datum       | Zeit | Beschreibung                                                                                                             |
-|:------------|:-----|:-------------------------------------------------------------------------------------------------------------------------|
-| 05.02.2025  | 5h   | Grundlegender Aufbau der Applikation, Technologies, Ring, Categories Module erstellen, Auth und Users Module importieren |
-| 06.02.2025  | 3h   |                                                                                                                          |
-
+| Datum      | Zeit    | Beschreibung                                                                                                                                                                                                            |
+|:-----------|:--------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 05.02.2025 | 5h      | Grundlegender Aufbau der Applikation, Technologies, Ring, Categories Module erstellen, Auth und Users Module importieren                                                                                                |
+| 06.02.2025 | 5h      | Weiterentwicklung Backend                                                                                                                                                                                               |
+| 07.02.2025 | 8h      | Start Frontend Entwicklung, weiterentwicklung Backend                                                                                                                                                                   |
+| 11.02.2025 | 6h      | Frontend Weiterentwickelt, Login Prüfung eingebaut, Registrierung, Token enschlüsselung beim GET-Befehl auf API Ebene um herauszufinden, welcher User den Aufruf gestartet hat und entsprechend ein Resultat zu liefern |
+| **Total**  | **24h** |                                                                                                                                                                                                                         |
