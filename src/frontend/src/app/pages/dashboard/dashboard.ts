@@ -9,13 +9,13 @@ import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, StatsWidget, TechnologiesWidget, BestSellingWidget, RevenueStreamWidget, NotificationsWidget],
+  imports: [CommonModule, StatsWidget, TechnologiesWidget, BestSellingWidget, NotificationsWidget],
   template: `
       <ng-container *ngIf="isLoggedIn">
         <div class="grid grid-cols-12 gap-8">
           <app-stats-widget class="contents" />
           <div class="col-span-12 xl:col-span-8">
-            <app-recent-sales-widget />
+            <app-technologies-overview />
             <app-best-selling-widget />
           </div>
           <div class="col-span-12 xl:col-span-4">

@@ -27,10 +27,9 @@ export class AuthController {
   }
 
   @Get('validate-token')
-  validateToken(@Request() req) {
+  async validateToken(@Request() req): Promise<Boolean> {
     const authHeader = req.headers.authorization;
     const token = authHeader && authHeader.split(' ')[1]; // Extract the token
-    console.log(token);
-    return this.authService.isTokenValid(token);
+    return await this.authService.isTokenValid(token);
   }
 }

@@ -8,6 +8,9 @@ import { AuthService } from './auth.service';
 import { jwtConstants } from './constants';
 import {PasswordsModule} from "../passwords/passwords.module";
 import {PasswordsService} from "../passwords/passwords.service";
+import {LogService} from "../log/log.service";
+import {MongooseModule} from "@nestjs/mongoose";
+import {LogEntity, LogSchema} from "../log/entities/log.entity";
 
 @Module({
   imports: [
@@ -17,14 +20,15 @@ import {PasswordsService} from "../passwords/passwords.service";
       global: true,
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '60m' },
-    })
+    }),
+    MongooseModule.forFeature([{ name: LogEntity.name, schema: LogSchema }])
   ],
   providers: [
     AuthService,
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
-    }
+    }, LogService, PasswordsService
   ],
   controllers: [AuthController],
   exports: [AuthService],

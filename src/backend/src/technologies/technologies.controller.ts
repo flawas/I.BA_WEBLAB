@@ -19,8 +19,8 @@ export class TechnologiesController {
   @Post()
   @ApiOperation({ summary: 'Create technology' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async create(@Body() createTechnologiesDto: CreateTechnologiesDto): Promise<TechnologiesEntity> {
-    return this.technologiesService.create(createTechnologiesDto);
+  async create(@Request() req, @Body() createTechnologiesDto: CreateTechnologiesDto): Promise<TechnologiesEntity> {
+    return this.technologiesService.create(req, createTechnologiesDto);
   }
 
   @Get(':id')
@@ -30,8 +30,8 @@ export class TechnologiesController {
     description: 'The found record',
     type: TechnologiesEntity,
   })
-  findOne(@Param('id') id: string): Promise<TechnologiesEntity> {
-    return this.technologiesService.findOne(id);
+  findOne(@Request() req, @Param('id') id: string): Promise<TechnologiesEntity> {
+    return this.technologiesService.findOne(req, id);
   }
 
   @Get()
@@ -52,8 +52,8 @@ export class TechnologiesController {
       description: 'The found record',
       type: TechnologiesEntity,
   })
-  update(@Param('id') id: string, @Body() updateTechnologiesDto: UpdateTechnologiesDto): Promise<TechnologiesEntity> {
-      return this.technologiesService.update(id, updateTechnologiesDto);
+  update(@Request() req, @Param('id') id: string, @Body() updateTechnologiesDto: UpdateTechnologiesDto): Promise<TechnologiesEntity> {
+      return this.technologiesService.update(req, id, updateTechnologiesDto);
   }
 
   @Delete(':id')
@@ -63,8 +63,8 @@ export class TechnologiesController {
       description: 'The found record',
       type: TechnologiesEntity,
   })
-  delete(@Param('id') id: string): Promise<TechnologiesEntity> {
-    return this.technologiesService.delete(id);
+  delete(@Request() req, @Param('id') id: string): Promise<TechnologiesEntity> {
+    return this.technologiesService.delete(req, id);
   }
 
 }

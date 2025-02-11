@@ -20,4 +20,4 @@ export class CategoriesEntity extends Document{
   description: string;
 
 }
-export const RingsSchema = SchemaFactory.createForClass(CategoriesEntity);
+export const CategoriesSchema = SchemaFactory.createForClass(CategoriesEntity);

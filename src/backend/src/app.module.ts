@@ -9,7 +9,7 @@ import {MongooseModule} from "@nestjs/mongoose";
 import {PasswordsModule} from "./passwords/passwords.module";
 import {RolesGuard} from "./roles/roles.guard";
 import {APP_GUARD} from "@nestjs/core";
-import * as process from "node:process";
+import {LogsModule} from "./log/logs.module";
 
 
 @Module({
@@ -23,7 +23,7 @@ import * as process from "node:process";
   imports: [
       MongooseModule.forRoot('mongodb://localhost/techradardb'),
     TechnologiesModule, CategoriesModule, RingsModule, AuthModule,
-    UsersModule, PasswordsModule],
+    UsersModule, PasswordsModule, LogsModule],
   controllers: [WelcomeController],
 })
 export class AppModule {}

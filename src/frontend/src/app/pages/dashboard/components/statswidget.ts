@@ -2,6 +2,7 @@ import {Component, ElementRef, Renderer2} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {TechnologyService} from '../../service/technology.service';
 import {CategoryService} from '../../service/category.service';
+import {RingService} from '../../service/ring.service';
 
 @Component({
     standalone: true,
@@ -42,7 +43,7 @@ import {CategoryService} from '../../service/category.service';
             <div class="flex justify-between mb-4">
               <div>
                 <span class="block text-muted-color font-medium mb-4">Rings</span>
-                <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">15 Rings</div>
+                <div class="text-surface-900 dark:text-surface-0 font-medium text-xl" id="ringsPublished"></div>
               </div>
               <div class="flex items-center justify-center bg-purple-100 dark:bg-purple-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
                 <i class="pi pi-spinner text-purple-500 !text-xl"></i>
@@ -74,6 +75,7 @@ export class StatsWidget {
   constructor(
     private techService: TechnologyService,
     private categoryService: CategoryService,
+    private ringService: RingService,
     private renderer: Renderer2,
     private el: ElementRef
   ) {}
@@ -92,6 +94,11 @@ export class StatsWidget {
     this.categoryService.getCategoriesCount().subscribe((count) => {
       const categoriesCountElement = this.el.nativeElement.querySelector('#categoriesPublished');
       this.renderer.setProperty(categoriesCountElement, 'innerText', count + " Categories");
+    });
+
+    this.ringService.getRingCount().subscribe((count) => {
+      const ringsCountElement = this.el.nativeElement.querySelector('#ringsPublished');
+      this.renderer.setProperty(ringsCountElement, 'innerText', count + " Rings");
     });
 
   }

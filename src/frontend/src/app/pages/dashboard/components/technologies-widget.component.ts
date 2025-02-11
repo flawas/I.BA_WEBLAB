@@ -11,10 +11,10 @@ import { map } from 'rxjs/operators';
 
 @Component({
   standalone: true,
-  selector: 'app-recent-sales-widget',
+  selector: 'app-technologies-overview',
   imports: [CommonModule, TableModule, ButtonModule, RippleModule, TagModule],
   template: `<div class="card !mb-8">
-    <div class="font-semibold text-xl mb-4">New Technologies</div>
+    <div class="font-semibold text-xl mb-4">Technologies</div>
     <p-table [value]="technologies" [paginator]="true" [rows]="5" responsiveLayout="scroll">
       <ng-template #header>
         <tr>
@@ -71,6 +71,7 @@ export class TechnologiesWidget implements OnInit {
         });
       });
     });
+
   }
 
   getSeverity(published: boolean): 'success' | 'warn' {
