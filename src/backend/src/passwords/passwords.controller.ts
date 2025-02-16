@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Request} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -18,14 +18,14 @@ export class PasswordsController {
   @Post('hash')
   @ApiOperation({ summary: 'Generate hashed password' })
   @ApiResponse({ status: 201, description: 'Hashed password created' })
-  async create(@Body() createPasswordsDto: CreatePasswordsDto): Promise<string> {
-    return this.passwordsService.create(createPasswordsDto);
+  async create(@Request() req, @Body() createPasswordsDto: CreatePasswordsDto): Promise<string> {
+    return this.passwordsService.create(req, createPasswordsDto);
   }
 
   @Post('compare')
   @ApiOperation({ summary: 'Compare hashed password' })
   @ApiResponse({ status: 200, description: 'Password compared' })
-  async compare(@Body() comparePasswordsDto: ComparePasswordsDto): Promise<boolean> {
-      return this.passwordsService.compare(comparePasswordsDto.plainTextPassword, comparePasswordsDto.hashedPassword);
+  async compare(@Request() req, @Body() comparePasswordsDto: ComparePasswordsDto): Promise<boolean> {
+      return this.passwordsService.compare(req, comparePasswordsDto.plainTextPassword, comparePasswordsDto.hashedPassword);
   }
 }

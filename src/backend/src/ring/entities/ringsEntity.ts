@@ -3,7 +3,7 @@ import {Document} from "mongoose";
 import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
 
 @Schema()
-export class RingEntity extends Document{
+export class RingsEntity extends Document{
 
   @ApiProperty({
     example: 'Level 0',
@@ -20,4 +20,4 @@ export class RingEntity extends Document{
   description: string;
 
 }
-export const RingsSchema = SchemaFactory.createForClass(RingEntity);
+export const RingsSchema = SchemaFactory.createForClass(RingsEntity);

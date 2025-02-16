@@ -1,11 +1,12 @@
 import { Routes } from '@angular/router';
 import { AppLayout } from './app/layout/component/app.layout';
 import { Dashboard } from './app/pages/dashboard/dashboard';
-import { Documentation } from './app/pages/documentation/documentation';
 import { Landing } from './app/pages/landing/landing';
 import { Notfound } from './app/pages/notfound/notfound';
-import {Crud} from './app/pages/crud/crud';
-import {InputFields} from './app/pages/input/inputfields';
+import {InputTechnology} from './app/pages/input/inputTechnology';
+import {InputCategory} from './app/pages/input/inputCategory';
+import {InputRing} from './app/pages/input/inputRing';
+import {LogView} from './app/pages/input/Log';
 
 export const appRoutes: Routes = [
   { path: '', component: Landing },
@@ -14,11 +15,11 @@ export const appRoutes: Routes = [
     component: AppLayout,
     children: [
       { path: '', component: Dashboard },
-      { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
-      { path: 'documentation', component: Documentation },
       { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') },
-      { path: 'crud', component: Crud },
-      { path: 'inputs', component: InputFields },
+      { path: 'technologies', component: InputTechnology },
+      { path: 'categories', component: InputCategory },
+      { path: 'rings', component: InputRing },
+      { path: 'logs', component: LogView },
     ]
   },
   { path: 'notfound', component: Notfound },

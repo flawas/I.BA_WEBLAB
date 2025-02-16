@@ -25,6 +25,15 @@ export class AppMenu {
                 items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/dashboard'] }]
             },
             {
+              label: 'Inputs',
+              items: [
+                { label: 'Technologies', icon: 'pi pi-fw pi-microchip-ai', routerLink: ['/dashboard/technologies'] },
+                { label: 'Rings', icon: 'pi pi-fw pi-spinner', routerLink: ['/dashboard/rings'] },
+                { label: 'Categories', icon: 'pi pi-fw pi-bars', routerLink: ['/dashboard/categories'] },
+                { label: 'Logs', icon: 'pi pi-fw pi-mobile', class: 'rotated-icon', routerLink: ['/dashboard/logs'] },
+              ]
+            },
+            {
                 label: 'UI Components',
                 items: [
                     { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', routerLink: ['/uikit/formlayout'] },

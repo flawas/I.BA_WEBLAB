@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import {IsBoolean, IsEnum, IsString} from 'class-validator';
 
 export class CreateTechnologiesDto {
   @IsString()
@@ -15,4 +15,7 @@ export class CreateTechnologiesDto {
 
   @IsString()
   readonly description_categorisation: string;
+
+  @IsBoolean()
+  readonly published: boolean;
 }

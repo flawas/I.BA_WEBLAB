@@ -34,4 +34,25 @@ export class CategoryService {
     );
   }
 
+  postCategory(category: any): Observable<any> {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post('http://localhost:3000/categories', category, { headers });
+  }
+
+  updateCategory(category: any): Observable<any> {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const body = {
+      name: category.name,
+      description: category.description
+    };
+    return this.http.patch('http://localhost:3000/categories/' + category.id, body, { headers });
+  }
+
+  deleteCategory(categoryId: string): Observable<any> {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.delete('http://localhost:3000/categories/' + categoryId, { headers });
+  }
 }

@@ -37,5 +37,19 @@ export class LogEntity extends Document{
   @Prop({ required: true })
   creationDate: Date;
 
+  @ApiProperty({
+    example: 'true',
+    description: 'Should the log be displayed on the dashboard'
+  })
+  @Prop({ required: true })
+  public: boolean;
+
+  @ApiProperty({
+    example: 'John Doe',
+    description: 'The user that triggered the log'
+  })
+  @Prop({ required: false })
+  user: string;
+
 }
 export const LogSchema = SchemaFactory.createForClass(LogEntity);

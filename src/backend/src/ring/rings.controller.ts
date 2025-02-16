@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Request} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -7,21 +7,24 @@ import {
 } from '@nestjs/swagger';
 import { RingsService } from './rings.service';
 import { CreateRingsDto} from "./dto/create-rings.dto";
-import { RingEntity } from './entities/ring.entity';
+import { RingsEntity } from './entities/ringsEntity';
 import {UpdateRingsDto} from "./dto/update-rings.dto";
+import {Roles} from "../roles/decorators/roles.decorator";
+import {Role} from "../roles/roles.enum";
 
 @ApiBearerAuth()
 @ApiTags('rings')
 @Controller('rings')
+@Roles(Role.Admin)
 export class RingsController {
   constructor(private readonly ringsService: RingsService) {}
 
   @Post()
   @ApiOperation({ summary: 'Create ring' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  @ApiResponse({ status: 201, description: 'Ring created', type: RingEntity })
-  async create(@Body() createRingsDto: CreateRingsDto): Promise<RingEntity> {
-    return this.ringsService.create(createRingsDto);
+  @ApiResponse({ status: 201, description: 'Ring created', type: RingsEntity })
+  async create(@Request() req, @Body() createRingsDto: CreateRingsDto): Promise<RingsEntity> {
+    return this.ringsService.create(req, createRingsDto);
   }
 
   @Get()
@@ -29,10 +32,10 @@ export class RingsController {
   @ApiResponse({
     status: 200,
     description: 'All rings',
-    type: RingEntity,
+    type: RingsEntity,
   })
-  findAll(): Promise<RingEntity[]> {
-    return this.ringsService.findAll();
+  async findAll(@Request() req): Promise<RingsEntity[]> {
+    return this.ringsService.findAll(req);
   }
 
   @Get(':id')
@@ -40,10 +43,10 @@ export class RingsController {
   @ApiResponse({
     status: 200,
     description: 'The found ring',
-    type: RingEntity,
+    type: RingsEntity,
   })
-  findOne(@Param('id') id: string): Promise<RingEntity> {
-    return this.ringsService.findOne(id);
+  async findOne(@Request() req ,@Param('id') id: string): Promise<RingsEntity> {
+    return this.ringsService.findOne(req, id);
   }
   
   @Patch(':id')
@@ -51,10 +54,10 @@ export class RingsController {
   @ApiResponse({
     status: 200,
     description: 'The updated ring',
-    type: RingEntity,
+    type: RingsEntity,
   })
-  update(@Param('id') id: string, @Body() updateRingsDto: UpdateRingsDto): Promise<RingEntity> {
-    return this.ringsService.update(id, updateRingsDto);
+  async update(@Request() req, @Param('id') id: string, @Body() updateRingsDto: UpdateRingsDto): Promise<RingsEntity> {
+    return this.ringsService.update(req, id, updateRingsDto);
   }
 
   @Delete(':id')
@@ -62,9 +65,9 @@ export class RingsController {
   @ApiResponse({
     status: 200,
     description: 'Delete a ring',
-    type: RingEntity,
+    type: RingsEntity,
   })
-  delete(@Param('id') id: string): Promise<RingEntity> {
-    return this.ringsService.delete(id);
+  async delete(@Request() req ,@Param('id') id: string): Promise<RingsEntity> {
+    return this.ringsService.delete(req, id);
   }
 }

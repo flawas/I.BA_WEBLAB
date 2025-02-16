@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Request} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -23,8 +23,8 @@ export class LogController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 201, description: 'log created', type: LogEntity })
   @Public()
-  async create(@Body() createLogDto: CreateLogDto): Promise<LogEntity> {
-    return this.logService.create(createLogDto);
+  async create(@Request() req: Request, @Body() createLogDto: CreateLogDto): Promise<LogEntity> {
+    return this.logService.create(req, createLogDto);
   }
 
   @Get()
@@ -38,5 +38,18 @@ export class LogController {
   findAll(): Promise<LogEntity[]> {
     return this.logService.findAll();
   }
+
+  @Get('public')
+  @ApiOperation({ summary: 'Get all public logs' })
+  @ApiResponse({
+    status: 200,
+    description: 'All logs',
+    type: LogEntity,
+  })
+  @Roles(Role.User, Role.Admin)
+  findAllPublicLogs(): Promise<LogEntity[]> {
+    return this.logService.findPublicLogs();
+  }
+
 
 }

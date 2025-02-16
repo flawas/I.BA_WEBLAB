@@ -19,6 +19,9 @@ export class TechnologiesController {
   @Post()
   @ApiOperation({ summary: 'Create technology' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({
+    status: 201,
+    description: 'The record has been successfully created.'})
   async create(@Request() req, @Body() createTechnologiesDto: CreateTechnologiesDto): Promise<TechnologiesEntity> {
     return this.technologiesService.create(req, createTechnologiesDto);
   }

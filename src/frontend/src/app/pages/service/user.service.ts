@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
@@ -39,9 +39,10 @@ export class UserService {
     console.log('Checking if user is logged in');
     const token = localStorage.getItem('authToken');
     if (token) {
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
       try {
-        const response: Observable<Object> = await this.http.post('http://localhost:3000/auth/validate-token', { token });
-        if(response) {
+        const response: any = await this.http.post('http://localhost:3000/auth/validate-token', {headers});
+        if (await response) {
           console.log('User is logged in, Token validated');
           return true;
         } else {

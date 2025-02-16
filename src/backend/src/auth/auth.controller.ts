@@ -17,8 +17,8 @@ export class AuthController {
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  signIn(@Body() signInDto: Record<string, any>) {
-    return this.authService.signIn(signInDto.username, signInDto.password);
+  signIn(@Request() req, @Body() signInDto: Record<string, any>) {
+    return this.authService.signIn(req, signInDto.username, signInDto.password);
   }
 
   @Get('profile')
@@ -30,6 +30,6 @@ export class AuthController {
   async validateToken(@Request() req): Promise<Boolean> {
     const authHeader = req.headers.authorization;
     const token = authHeader && authHeader.split(' ')[1]; // Extract the token
-    return await this.authService.isTokenValid(token);
+    return await this.authService.isTokenValid(req, token);
   }
 }

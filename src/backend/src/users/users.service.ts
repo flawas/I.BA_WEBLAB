@@ -5,6 +5,7 @@ import {Model} from "mongoose";
 import {UsersEntity} from "./entities/users.entity";
 import {ApiBearerAuth} from "@nestjs/swagger";
 import {PasswordsService} from "../passwords/passwords.service";
+import {Request} from "express";
 
 @ApiBearerAuth()
 @Injectable()
@@ -15,16 +16,15 @@ export class UsersService {
       private passwordService: PasswordsService,
   ) {}
 
-  async create(createUserDto: CreateUsersDto): Promise<UsersEntity> {
+  async create(request: Request, createUserDto: CreateUsersDto): Promise<UsersEntity> {
     const newUser = new this.userModel(createUserDto);
-    const passsword = newUser.password
-    newUser.password = await this.passwordService.create({plainTextPassword: passsword});
+    newUser.password = await this.passwordService.create(request, {plainTextPassword: newUser.password});
     newUser.roles = ['user'];
     console.log('Created user', newUser.username);
     return await newUser.save();
   }
 
-  async findOneByUsername(username: string): Promise<UsersEntity | undefined> {
+  async findOneByUsername(request: Request, username: string): Promise<UsersEntity | undefined> {
     console.log('Finding user by username', username);
     return this.userModel.findOne({ username }).exec();
   }

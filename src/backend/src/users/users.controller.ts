@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post} from '@nestjs/common';
+import {Body, Controller, Get, Param, Post, Request} from '@nestjs/common';
 import {
     ApiOperation,
     ApiResponse,
@@ -22,8 +22,8 @@ export class UsersController {
     @ApiOperation({ summary: 'Create user' })
     @ApiResponse({ status: 403, description: 'Forbidden.' })
     @ApiResponse({ status: 201, description: 'User created', type: UsersEntity })
-    async create(@Body() createUsersDto: CreateUsersDto): Promise<UsersEntity> {
-        return this.userService.create(createUsersDto);
+    async create(@Request() req, @Body() createUsersDto: CreateUsersDto): Promise<UsersEntity> {
+        return this.userService.create(req, createUsersDto);
     }
 
     @Roles(Role.Admin)
@@ -35,7 +35,7 @@ export class UsersController {
         type: UsersEntity,
     })
     @ApiResponse({ status: 404, description: 'User not found' })
-    findOneByUsername(@Param('username') username: string): Promise<UsersEntity> {
-        return this.userService.findOneByUsername(username);
+    findOneByUsername(@Request() req, @Param('username') username: string): Promise<UsersEntity> {
+        return this.userService.findOneByUsername(req, username);
     }
 }

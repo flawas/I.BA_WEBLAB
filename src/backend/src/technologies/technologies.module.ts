@@ -15,6 +15,8 @@ import {LogService} from "../log/log.service";
 import {CategoriesEntity, CategoriesSchema} from "../categories/entities/categories.entity";
 import {UsersEntity, UsersSchema} from "../users/entities/users.entity";
 import {LogEntity, LogSchema} from "../log/entities/log.entity";
+import {RingsEntity, RingsSchema} from "../ring/entities/ringsEntity";
+import {RingsService} from "../ring/rings.service";
 
 @Module({
   imports: [
@@ -22,6 +24,7 @@ import {LogEntity, LogSchema} from "../log/entities/log.entity";
     MongooseModule.forFeature([{ name: CategoriesEntity.name, schema: CategoriesSchema }]),
     MongooseModule.forFeature([{ name: UsersEntity.name, schema: UsersSchema }]),
     MongooseModule.forFeature([{ name: LogEntity.name, schema: LogSchema }]),
+    MongooseModule.forFeature([{ name: RingsEntity.name, schema: RingsSchema }]),
 
 
     JwtModule,
@@ -31,7 +34,7 @@ import {LogEntity, LogSchema} from "../log/entities/log.entity";
   ],
   providers: [
     TechnologiesService,
-    AuthService, CategoriesService, UsersService, PasswordsService, LogService
+    AuthService, CategoriesService, UsersService, PasswordsService, LogService, RingsService
   ],
   controllers: [TechnologiesController],
   exports: [TechnologiesService],

@@ -15,7 +15,7 @@ import { map } from 'rxjs/operators';
   imports: [CommonModule, TableModule, ButtonModule, RippleModule, TagModule],
   template: `<div class="card !mb-8">
     <div class="font-semibold text-xl mb-4">Technologies</div>
-    <p-table [value]="technologies" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+    <p-table [value]="technologies" [paginator]="true" [rows]="13" responsiveLayout="scroll">
       <ng-template #header>
         <tr>
           <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
@@ -64,8 +64,8 @@ export class TechnologiesWidget implements OnInit {
           const categoryName = categoryNames[index];
           return {
             ...tech,
-            creationDate: this.datePipe.transform(tech.creationDate, 'dd.MM.yyyy hh:mm'),
-            lastUpdate: this.datePipe.transform(tech.lastUpdate, 'dd.MM.yyyy hh:mm'),
+            creationDate: this.datePipe.transform(tech.creationDate, 'dd.MM.yyyy HH:mm'),
+            lastUpdate: this.datePipe.transform(tech.lastUpdate, 'dd.MM.yyyy HH:mm'),
             categoryName: categoryName
           };
         });

@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Req, Request} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -23,8 +23,8 @@ export class CategoriesController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 201, description: 'Category created', type: CategoriesEntity })
   @Roles(Role.Admin)
-  async create(@Body() createCategoriesDto: CreateCategoriesDto): Promise<CategoriesEntity> {
-    return this.ringsService.create(createCategoriesDto);
+  async create(@Request() req, @Body() createCategoriesDto: CreateCategoriesDto): Promise<CategoriesEntity> {
+    return this.ringsService.create(req, createCategoriesDto);
   }
 
   @Get()
@@ -34,8 +34,8 @@ export class CategoriesController {
     description: 'All categories',
     type: CategoriesEntity,
   })
-  findAll(): Promise<CategoriesEntity[]> {
-    return this.ringsService.findAll();
+  findAll(@Request() req): Promise<CategoriesEntity[]> {
+    return this.ringsService.findAll(req);
   }
 
   @Get(':id')
@@ -45,8 +45,8 @@ export class CategoriesController {
     description: 'The found category',
     type: CategoriesEntity,
   })
-  findOne(@Param('id') id: string): Promise<CategoriesEntity> {
-    return this.ringsService.findOne(id);
+  findOne(@Request() req, @Param('id') id: string): Promise<CategoriesEntity> {
+    return this.ringsService.findOne(req, id);
   }
   
   @Patch(':id')
@@ -56,8 +56,8 @@ export class CategoriesController {
     description: 'The updated category',
     type: CategoriesEntity,
   })
-  update(@Param('id') id: string, @Body() updateRingsDto: UpdateCategoriesDto): Promise<CategoriesEntity> {
-    return this.ringsService.update(id, updateRingsDto);
+  update(@Request() req, @Param('id') id: string, @Body() updateRingsDto: UpdateCategoriesDto): Promise<CategoriesEntity> {
+    return this.ringsService.update(req, id, updateRingsDto);
   }
 
   @Delete(':id')
@@ -67,7 +67,7 @@ export class CategoriesController {
     description: 'Delete a category',
     type: CategoriesEntity,
   })
-  delete(@Param('id') id: string): Promise<CategoriesEntity> {
-    return this.ringsService.delete(id);
+  delete(@Request() req,@Param('id') id: string): Promise<CategoriesEntity> {
+    return this.ringsService.delete(req, id);
   }
 }

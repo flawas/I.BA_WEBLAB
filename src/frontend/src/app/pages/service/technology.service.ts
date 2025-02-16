@@ -36,4 +36,16 @@ export class TechnologyService {
     );
   }
 
+  postTechnology(technology: any): Observable<any> {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post('http://localhost:3000/technologies', technology, { headers });
+  }
+
+  updateTechnology(technology: any): Observable<any> {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post('http://localhost:3000/technologies', technology, { headers });
+  }
+
 }
