@@ -77,6 +77,11 @@ import {RingService} from '../service/ring.service';
         </p-floatlabel>
 
         <p-floatlabel variant="on">
+          <input pInputText id="RingLevel" [(ngModel)]="RingLevel"/>
+          <label for="RingLevel">Level of Ring</label>
+        </p-floatlabel>
+
+        <p-floatlabel variant="on">
           <textarea pTextarea id="RingDescription" [(ngModel)]="RingDescription" rows="5" cols="30"
                     style="resize: none" class="h-full"></textarea>
           <label for="RingDescription">Description of technology</label>
@@ -84,7 +89,7 @@ import {RingService} from '../service/ring.service';
 
         <p-button
           label="Save new ring"
-          icon="pi pi-check" (onClick)="saveRing()" [disabled]="!RingName || !RingDescription"/>
+          icon="pi pi-check" (onClick)="saveRing()" [disabled]="!RingName || !RingDescription ||!RingLevel"/>
       </div>
       <div class="card !mb-8">
         <div class="font-semibold text-xl mb-4">Rings</div>
@@ -97,6 +102,9 @@ import {RingService} from '../service/ring.service';
               </th>
               <th pSortableColumn="published">Description
                 <p-sortIcon field="published"></p-sortIcon>
+              </th>
+              <th pSortableColumn="level">Level
+                <p-sortIcon field="level"></p-sortIcon>
               </th>
               <th style="width:20%"></th>
             </tr>
@@ -127,6 +135,19 @@ import {RingService} from '../service/ring.service';
                   </ng-template>
                   <ng-template #output>
                     {{ ring.description }}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td>
+                <p-cellEditor>
+                  <ng-template #input>
+                    <input
+                      pInputText
+                      type="text"
+                      [(ngModel)]="ring.level"/>
+                  </ng-template>
+                  <ng-template #output>
+                    {{ ring.level }}
                   </ng-template>
                 </p-cellEditor>
               </td>
@@ -203,6 +224,7 @@ export class InputRing implements OnInit{
 
   RingDescription: string = '';
   RingName: string = '';
+  RingLevel: number = 0;
 
   constructor(
     private ringService: RingService,
@@ -216,7 +238,8 @@ export class InputRing implements OnInit{
         return {
           id: Ring._id,
           name: Ring.name,
-          description: Ring.description
+          description: Ring.description,
+          level: Ring.level
         };
       });
     });
@@ -224,7 +247,7 @@ export class InputRing implements OnInit{
 
 
   async saveRing() {
-    if (!this.RingName || !this.RingDescription) {
+    if (!this.RingName || !this.RingDescription || !this.RingLevel) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Some fields are required' });
       console.error('Some fields are required');
       return;
@@ -232,12 +255,13 @@ export class InputRing implements OnInit{
 
     const Ring = {
       name: this.RingName,
-      description: this.RingDescription
+      description: this.RingDescription,
+      level: this.RingLevel
     };
 
     this.ringService.postRing(Ring).subscribe(
       (response) => {
-        console.log('Technology saved successfully:', response);
+        console.log('Ring saved successfully:', response);
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Technology created successfully' });
         window.location.reload();
       },
@@ -249,7 +273,6 @@ export class InputRing implements OnInit{
   }
 
   async onRowEditSave(ring:any) {
-    console.log(ring);
     this.ringService.updateRing(ring).subscribe(
       (response) => {
         console.log('Ring updated successfully:', response);
@@ -257,7 +280,7 @@ export class InputRing implements OnInit{
         window.location.reload();
       },
       (error) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error updating Ring' });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error deleting Ring, please reload the page' });
         console.error('Error updating Ring:', error);
       }
     );
@@ -271,7 +294,7 @@ export class InputRing implements OnInit{
         window.location.reload();
       },
       (error) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error deleting Ring' });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error deleting Ring, please reload the page' });
         console.error('Error deleting Ring:', error);
       }
     );

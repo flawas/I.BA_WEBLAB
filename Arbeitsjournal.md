@@ -6,4 +6,8 @@
 | 06.02.2025 | 5h      | Weiterentwicklung Backend                                                                                                                                                                                               |
 | 07.02.2025 | 8h      | Start Frontend Entwicklung, weiterentwicklung Backend                                                                                                                                                                   |
 | 11.02.2025 | 6h      | Frontend Weiterentwickelt, Login Prüfung eingebaut, Registrierung, Token enschlüsselung beim GET-Befehl auf API Ebene um herauszufinden, welcher User den Aufruf gestartet hat und entsprechend ein Resultat zu liefern |
-| **Total**  | **24h** |                                                                                                                                                                                                                         |
+| 11.02.2025 | 5h      | Template Form erstellt für die Erfassung von Technologien, auslesen der Category und Ring für Dropdown, Dashboard erweitern                                                                                             |
+| 13.02.2025 | 6h      | Allgemeine Arbeiten, Frontend und Backend verbessern                                                                                                                                                                    |
+| 19.02.2025 | 2h      | RingService in Frontend und Backend anpassen, Level einbauen                                                                                                                                                            |
+|            |         |
+| **Total**  | **30h** |                                                                                                                                                                                                                         |

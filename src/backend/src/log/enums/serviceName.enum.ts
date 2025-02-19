@@ -6,4 +6,5 @@ export enum ServiceName {
     ROLES = 'Roles service',
     TECHNOLOGIES = 'Technologies service',
     USERS = 'Users service',
+    LOG = 'Log service'
 }

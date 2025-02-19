@@ -35,8 +35,8 @@ export class LogController {
     type: LogEntity,
   })
   @Roles(Role.Admin)
-  findAll(): Promise<LogEntity[]> {
-    return this.logService.findAll();
+  findAll(@Request() req: Request): Promise<LogEntity[]> {
+    return this.logService.findAll(req);
   }
 
   @Get('public')
@@ -47,8 +47,8 @@ export class LogController {
     type: LogEntity,
   })
   @Roles(Role.User, Role.Admin)
-  findAllPublicLogs(): Promise<LogEntity[]> {
-    return this.logService.findPublicLogs();
+  findAllPublicLogs(@Request() req: Request): Promise<LogEntity[]> {
+    return this.logService.findPublicLogs(req);
   }
 
 

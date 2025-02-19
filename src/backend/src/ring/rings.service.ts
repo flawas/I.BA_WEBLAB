@@ -24,7 +24,14 @@ export class RingsService {
 
   async create(request: Request, createRingsDto: CreateRingsDto): Promise<RingsEntity> {
     try {
-      const dto = new this.ringsModel(createRingsDto);
+        const dto = new this.ringsModel(createRingsDto);
+        const existingRing = await this.ringsModel.findOne({ level: createRingsDto.level }).exec();
+        if (await existingRing) {
+            const createLogDto = { service: ServiceName.RINGS, severity: Severity.ERROR, description: `Ring with level ${dto.level} already exists`, public: true } as CreateLogDto;
+            await this.logService.create(request, createLogDto);
+            throw new InternalServerErrorException(`Ring with level ${createRingsDto.level} already exists`);
+        }
+
       const createLogDto = { service: ServiceName.RINGS, severity: Severity.INFO, description: `Ring with id ${dto._id} created`, public: true } as CreateLogDto;
       await this.logService.create(request, createLogDto);
       return await dto.save();
@@ -59,23 +66,33 @@ export class RingsService {
     }
   }
 
-  async update(request: Request, _id: string, updateRings: UpdateRingsDto): Promise<RingsEntity> {
-    try {
-      const rings = await this.ringsModel.findByIdAndUpdate(_id, updateRings, { new: true }).exec();
-      if (!rings) {
-        const createLogDto = { service: ServiceName.RINGS, severity: Severity.ERROR, description: `Ring with id ${_id} not found`, public: false } as CreateLogDto;
-        await this.logService.create(request, createLogDto);
-        throw new NotFoundException(`Ring with id ${_id} not found`);
-      }
-      const createLogDto = { service: ServiceName.RINGS, severity: Severity.INFO, description: `Ring with id ${_id} updated`, public: false } as CreateLogDto;
-      await this.logService.create(request, createLogDto);
-      return rings;
-    } catch (error) {
-      const createLogDto = { service: ServiceName.RINGS, severity: Severity.INFO, description: `Error updating ring ${error}`, public: false } as CreateLogDto;
-      await this.logService.create(request, createLogDto);
-      throw new InternalServerErrorException('Error updating ring');
+    async update(request: Request, _id: string, updateRings: UpdateRingsDto): Promise<RingsEntity> {
+        try {
+            // Check if a ring with the same level already exists
+            const existingRing = await this.ringsModel.findOne({ level: updateRings.level }).exec();
+            console.log(existingRing);
+            if (existingRing && existingRing._id.toString() !== _id) {
+                const createLogDto = { service: ServiceName.RINGS, severity: Severity.ERROR, description: `Ring with level ${updateRings.level} already exists`, public: true } as CreateLogDto;
+                await this.logService.create(request, createLogDto);
+                throw new InternalServerErrorException(`Ring with level ${updateRings.level} already exists`);
+            }
+
+            const rings = await this.ringsModel.findByIdAndUpdate(_id, updateRings, { new: true }).exec();
+            if (!rings) {
+                const createLogDto = { service: ServiceName.RINGS, severity: Severity.ERROR, description: `Ring with id ${_id} not found`, public: false } as CreateLogDto;
+                await this.logService.create(request, createLogDto);
+                throw new NotFoundException(`Ring with id ${_id} not found`);
+            }
+
+            const createLogDto = { service: ServiceName.RINGS, severity: Severity.INFO, description: `Ring with id ${_id} updated`, public: false } as CreateLogDto;
+            await this.logService.create(request, createLogDto);
+            return rings;
+        } catch (error) {
+            const createLogDto = { service: ServiceName.RINGS, severity: Severity.INFO, description: `Error updating ring ${error}`, public: false } as CreateLogDto;
+            await this.logService.create(request, createLogDto);
+            throw new InternalServerErrorException('Error updating ring');
+        }
     }
-  }
 
   async delete(request: Request, _id: string): Promise<RingsEntity> {
     try {

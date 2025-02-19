@@ -15,6 +15,10 @@ import { map } from 'rxjs/operators';
   imports: [CommonModule, TableModule, ButtonModule, RippleModule, TagModule],
   template: `<div class="card !mb-8">
     <div class="font-semibold text-xl mb-4">Technologies</div>
+    <div *ngFor="let category of categories">
+      <div class="font-semibold text-xl mb-4">{{ category.name }}</div>
+    </div>
+
     <p-table [value]="technologies" [paginator]="true" [rows]="13" responsiveLayout="scroll">
       <ng-template #header>
         <tr>
@@ -46,6 +50,7 @@ import { map } from 'rxjs/operators';
 })
 export class TechnologiesWidget implements OnInit {
   technologies!: any[];
+  categories: any[] = [];
 
   constructor(
     private technologyService: TechnologyService,
@@ -54,6 +59,9 @@ export class TechnologiesWidget implements OnInit {
   ) {}
 
   ngOnInit() {
+
+    this.categoryService.getCategories().subscribe((data) => { this.categories = data; });
+
     this.technologyService.getTechnologies().subscribe((data) => {
       const categoryObservables = data.map((tech: { fk_category: string; }) =>
         this.categoryService.getCategory(tech.fk_category).pipe(map((category: { name: string; }) => category.name))
@@ -71,7 +79,6 @@ export class TechnologiesWidget implements OnInit {
         });
       });
     });
-
   }
 
   getSeverity(published: boolean): 'success' | 'warn' {

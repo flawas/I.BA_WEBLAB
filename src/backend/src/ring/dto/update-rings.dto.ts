@@ -1,4 +1,4 @@
-import {IsString} from 'class-validator';
+import {IsInt, IsString} from 'class-validator';
 
 export class UpdateRingsDto {
     @IsString()
@@ -6,4 +6,7 @@ export class UpdateRingsDto {
 
     @IsString()
     readonly description: string;
+
+    @IsInt()
+    readonly level: number;
 }

@@ -43,7 +43,8 @@ export class RingService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const body = {
       name: ring.name,
-      description: ring.description
+      description: ring.description,
+      level: ring.level
     };
     console.log(body);
     return this.http.patch('http://localhost:3000/rings/' + ring.id, body, { headers });
