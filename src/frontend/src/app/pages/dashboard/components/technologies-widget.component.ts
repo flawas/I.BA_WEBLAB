@@ -19,6 +19,8 @@ import { map } from 'rxjs/operators';
       <div class="font-semibold text-xl mb-4">{{ category.name }}</div>
     </div>
 
+
+
     <p-table [value]="technologies" [paginator]="true" [rows]="13" responsiveLayout="scroll">
       <ng-template #header>
         <tr>
