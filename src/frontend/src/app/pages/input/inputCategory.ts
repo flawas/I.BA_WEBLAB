@@ -26,15 +26,12 @@ import { ListboxModule } from 'primeng/listbox';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { TextareaModule } from 'primeng/textarea';
 import { ToggleButtonModule } from 'primeng/togglebutton';
-import { CountryService } from '../service/country.service';
 import { NodeService } from '../service/node.service';
 import {CategoryService} from '../service/category.service';
 import {MessageService} from 'primeng/api';
 import {ToastModule} from 'primeng/toast';
-import {Ripple} from 'primeng/ripple';
 import {TableModule} from 'primeng/table';
-import {Tag} from 'primeng/tag';
-import pagesRoutes from '../pages.routes';
+
 
 @Component({
   selector: 'app-input-demo',
@@ -190,7 +187,7 @@ import pagesRoutes from '../pages.routes';
     </p-fluid>
 
   `,
-  providers: [CountryService, NodeService, CategoryService, MessageService]
+  providers: [NodeService, CategoryService, MessageService]
 })
 export class InputCategory implements OnInit{
 

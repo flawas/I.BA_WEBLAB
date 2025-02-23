@@ -45,7 +45,18 @@ export class TechnologyService {
   updateTechnology(technology: any): Observable<any> {
     const token = localStorage.getItem('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post('http://localhost:3000/technologies', technology, { headers });
+    const body = {
+      name: technology.name,
+      fk_ring: technology.fk_ring,
+      fk_category: technology.fk_category,
+      description: technology.description,
+      description_categorisation: technology.description_categorisation,
+      published: technology.published
+    };
+    console.log(technology);
+    console.log("---");
+    console.log(body);
+    return this.http.patch('http://localhost:3000/technologies/' + technology._id , body, { headers });
   }
 
 }

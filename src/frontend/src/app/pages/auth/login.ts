@@ -32,8 +32,8 @@ import {Environment} from '@angular/cli/lib/config/workspace-schema';
 
               <label for="password1" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">Password</label>
               <p-password id="password1" [(ngModel)]="password" placeholder="Password" [toggleMask]="true" styleClass="mb-4" [fluid]="true" [feedback]="false"></p-password>
-
               <p-button label="Sign In" styleClass="w-full" (onClick)="login()"></p-button>
+              <span class="text-muted-color font-medium">Not registered yet? <a routerLink="/auth/register">Register</a></span>
             </div>
           </div>
         </div>

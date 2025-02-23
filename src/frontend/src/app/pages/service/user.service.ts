@@ -47,17 +47,17 @@ export class UserService {
           return true;
         } else {
           console.log('User is not logged in');
-          await this.router.navigate(['/auth/login']);
+          this.router.navigate(['/auth/login']).then(r => console.log('Navigated to login'));
           return false;
         }
       } catch (error) {
         console.error('Token validation failed', error);
-        await this.router.navigate(['/auth/login']);
+        this.router.navigate(['/auth/login']).then(r => console.log('Navigated to login'));
         return false;
       }
     } else {
       console.log('User has no access token');
-      await this.router.navigate(['/auth/login']);
+      this.router.navigate(['/auth/login']).then(r => console.log('Navigated to login'));
       return false;
     }
   }

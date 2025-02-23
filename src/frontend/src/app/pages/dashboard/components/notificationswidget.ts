@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
-import { MenuModule } from 'primeng/menu';
-import { LogService } from '../../service/log.service';
+import {Component, OnInit} from '@angular/core';
+import {ButtonModule} from 'primeng/button';
+import {MenuModule} from 'primeng/menu';
+import {LogService} from '../../service/log.service';
 import {TableModule} from 'primeng/table';
 import {DatePipe} from '@angular/common';
 
@@ -19,11 +19,13 @@ import {DatePipe} from '@angular/common';
           <span class="block text-muted-color font-medium mb-4">{{ log.creationDate }}</span>
           <ul class="p-0 mx-0 mt-0 mb-6 list-none">
             <li class="flex items-center py-2 border-b border-surface">
-              <div class="w-12 h-12 flex items-center justify-center bg-green-100 dark:bg-blue-400/10 rounded-full mr-4 shrink-0">
+              <div
+                class="w-12 h-12 flex items-center justify-center bg-green-100 dark:bg-blue-400/10 rounded-full mr-4 shrink-0">
                 <i [classList]="log.icon"></i>
               </div>
               <div>
-                <span class="font-semibold">{{ log.service }}</span> | <span class="text-muted">{{ log.description }}</span>
+                <span class="font-semibold">{{ log.service }}</span> | <span
+                class="text-muted">{{ log.description }}</span>
                 | <span class="text-muted">{{ log.creationTime }}</span>
               </div>
             </li>
@@ -39,7 +41,8 @@ export class NotificationsWidget implements OnInit {
   constructor(
     private logService: LogService,
     private datePipe: DatePipe,
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.logService.getPublicLogs().subscribe((logs) => {
@@ -60,12 +63,16 @@ export class NotificationsWidget implements OnInit {
       return 'pi pi-user !text-xl text-black';
     }
 
-    if(service == 'Category service') {
+    if (service == 'Category service') {
       return 'pi pi-bars text-orange-500 !text-xl';
     }
 
-    if(service == 'Rings service') {
+    if (service == 'Rings service') {
       return 'pi pi-spinner text-purple-500 !text-xl';
+    }
+
+    if (service == 'User service') {
+      return 'pi pi-user !text-xl text-black';
     }
 
     return 'pi pi-question-circle'; // Default icon or handle other services

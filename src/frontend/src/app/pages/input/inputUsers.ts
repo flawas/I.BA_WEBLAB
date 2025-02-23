@@ -31,6 +31,7 @@ import {MessageService} from 'primeng/api';
 import {ToastModule} from 'primeng/toast';
 import {TableModule} from 'primeng/table';
 import {RingService} from '../service/ring.service';
+import {UserService} from '../service/user.service';
 
 @Component({
   selector: 'app-input-demo',
@@ -219,83 +220,19 @@ import {RingService} from '../service/ring.service';
 })
 export class InputRing implements OnInit{
 
-  rings!: any[];
+  users!: any[];
 
   RingDescription: string = '';
   RingName: string = '';
   RingLevel: number = 0;
 
   constructor(
-    private ringService: RingService,
+    private userService: UserService,
     private messageService: MessageService
   ) { }
 
 
   ngOnInit() {
-    this.ringService.getRings().subscribe((data) => {
-      this.rings = data.map((Ring: any) => {
-        return {
-          id: Ring._id,
-          name: Ring.name,
-          description: Ring.description,
-          level: Ring.level
-        };
-      });
-    });
-  }
 
-
-  async saveRing() {
-    if (!this.RingName || !this.RingDescription || !this.RingLevel) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Some fields are required' });
-      console.error('Some fields are required');
-      return;
-    }
-
-    const Ring = {
-      name: this.RingName,
-      description: this.RingDescription,
-      level: this.RingLevel
-    };
-
-    this.ringService.postRing(Ring).subscribe(
-      (response) => {
-        console.log('Ring saved successfully:', response);
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Technology created successfully' });
-        window.location.reload();
-      },
-      (error) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error saving technology' });
-        console.error('Error saving technology:', error);
-      }
-    );
-  }
-
-  async onRowEditSave(ring:any) {
-    this.ringService.updateRing(ring).subscribe(
-      (response) => {
-        console.log('Ring updated successfully:', response);
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Ring updated successfully' });
-        window.location.reload();
-      },
-      (error) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error deleting Ring, please reload the page' });
-        console.error('Error updating Ring:', error);
-      }
-    );
-  }
-
-  async onRowDelete(ringId:any) {
-    this.ringService.deleteRing(ringId).subscribe(
-      (response) => {
-        console.log('Ring deleted successfully:', response);
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Ring deleted successfully' });
-        window.location.reload();
-      },
-      (error) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error deleting Ring, please reload the page' });
-        console.error('Error deleting Ring:', error);
-      }
-    );
   }
 }

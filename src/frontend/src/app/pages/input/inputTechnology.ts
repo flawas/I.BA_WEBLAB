@@ -26,7 +26,6 @@ import {ListboxModule} from 'primeng/listbox';
 import {InputGroupAddonModule} from 'primeng/inputgroupaddon';
 import {TextareaModule} from 'primeng/textarea';
 import {ToggleButtonModule} from 'primeng/togglebutton';
-import {CountryService} from '../service/country.service';
 import {NodeService} from '../service/node.service';
 import {CategoryService} from '../service/category.service';
 import {RingService} from '../service/ring.service';
@@ -115,7 +114,6 @@ import {forkJoin} from 'rxjs';
 
         <p-togglebutton [(ngModel)]="publishedValue" onLabel="Published" offLabel="Draft" onIcon="pi pi-eye"
                         offIcon="pi pi-eye-slash" styleClass="w-36"
-                        [ngClass]="{'ng-invalid ng-dirty': publishedValue}"
                         [disabled]="!descriptionOfClassification || !dropdownValueRing"/>
 
         <p-button
@@ -125,119 +123,9 @@ import {forkJoin} from 'rxjs';
 
       </div>
 
-      <!-- Technology table -->
-      <div class="card !mb-8">
-        <div class="font-semibold text-xl mb-4">Categories</div>
-        <p-table [value]="technologies" dataKey="id" editMode="row" [paginator]="true" [rows]="13" responsiveLayout="scroll">
-          <ng-template pTemplate="header">
-            <tr>
-              <th pSortableColumn="name">Name
-                <p-sortIcon field="name"></p-sortIcon>
-              </th>
-              <th pSortableColumn="fk_ring">Ring
-                <p-sortIcon field="fk_ring"></p-sortIcon>
-              </th>
-              <th pSortableColumn="fk_category">Category
-                <p-sortIcon field="fk_category"></p-sortIcon>
-              </th>
-              <th pSortableColumn="description">Description technology
-                <p-sortIcon field="description"></p-sortIcon>
-              </th>
-              <th pSortableColumn="description_categorisation">Description categorisation
-                <p-sortIcon field="description_categorisation"></p-sortIcon>
-              </th>
-              <th pSortableColumn="published">Published
-                <p-sortIcon field="published"></p-sortIcon>
-              </th>
-              <th pSortableColumn="creationDate">Creation date
-                <p-sortIcon field="creationDate"></p-sortIcon>
-              </th>
-              <th pSortableColumn="lastUpdate">Last update
-                <p-sortIcon field="lastUpdate"></p-sortIcon>
-              </th>
-              <th style="width:10%"></th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-technology let-editing="editing" let-ri="rowIndex">
-            <tr [pEditableRow]="technology">
-              <td>
-                <p-cellEditor>
-                  <ng-template pTemplate="input">
-                    <input pInputText type="text" [(ngModel)]="technology.name"/>
-                  </ng-template>
-                  <ng-template pTemplate="output">
-                    {{ technology.name }}
-                  </ng-template>
-                </p-cellEditor>
-              </td>
-              <td>
-                <p-cellEditor>
-                  <ng-template pTemplate="input">
-                    <input pInputText type="text" [(ngModel)]="technology.fk_ring_name"/>
-                  </ng-template>
-                  <ng-template pTemplate="output">
-                    {{ technology.fk_ring_name }}
-                  </ng-template>
-                </p-cellEditor>
-              </td>
-              <td>
-                <p-cellEditor>
-                  <ng-template pTemplate="input">
-                    <p-select [(ngModel)]="technology.fk_category" [options]="dropdownValuesCategories" optionLabel="name" id="category"/>
-                  </ng-template>
-                  <ng-template pTemplate="output">
-                    {{ technology.fk_category_name }}
-                  </ng-template>
-                </p-cellEditor>
-              </td>
-              <td>
-                <p-cellEditor>
-                  <ng-template pTemplate="input">
-                    <input pInputText type="text" [(ngModel)]="technology.description"/>
-                  </ng-template>
-                  <ng-template pTemplate="output">
-                    {{ technology.description }}
-                  </ng-template>
-                </p-cellEditor>
-              </td>
-              <td>
-                <p-cellEditor>
-                  <ng-template pTemplate="input">
-                    <input pInputText type="text" [(ngModel)]="technology.description_categorisation"/>
-                  </ng-template>
-                  <ng-template pTemplate="output">
-                    {{ technology.description_categorisation }}
-                  </ng-template>
-                </p-cellEditor>
-              </td>
-              <td>
-                <p-cellEditor>
-                  <ng-template pTemplate="input">
-                    <p-togglebutton [(ngModel)]="technology.published" onLabel="Published" offLabel="Draft" onIcon="pi pi-eye" offIcon="pi pi-eye-slash" styleClass="w-36" [ngClass]="{'ng-invalid ng-dirty': technology.published}" [disabled]="!technology.description_categorisation || !technology.fk_ring"/>
-                  </ng-template>
-                  <ng-template pTemplate="output">
-                    <p-tag [value]="technology.published ? 'Published' : 'Draft'" [severity]="getSeverity(technology.published)"></p-tag>
-                  </ng-template>
-                </p-cellEditor>
-              </td>
-              <td>{{ technology.creationDate }}</td>
-              <td>{{ technology.lastUpdate }}</td>
-              <td>
-                <div class="flex items-center justify-center gap-2">
-                  <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" text rounded severity="secondary"></button>
-                  <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-times" text rounded severity="secondary"></button>
-                  <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" text rounded severity="secondary"></button>
-                  <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" text rounded severity="secondary"></button>
-                </div>
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
-      </div>
-
     </p-fluid>
   `,
-  providers: [CountryService, NodeService, CategoryService, MessageService, DatePipe]
+  providers: [NodeService, CategoryService, MessageService, DatePipe]
 })
 export class InputTechnology implements OnInit {
 
@@ -359,7 +247,7 @@ export class InputTechnology implements OnInit {
       (response) => {
         console.log('Technology saved successfully:', response);
         this.messageService.add({severity: 'success', summary: 'Success', detail: 'Technology created successfully'});
-
+        window.location.reload();
       },
       (error) => {
         this.messageService.add({severity: 'error', summary: 'Error', detail: 'Error saving technology'});

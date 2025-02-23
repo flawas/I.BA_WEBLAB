@@ -26,15 +26,10 @@ import { ListboxModule } from 'primeng/listbox';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { TextareaModule } from 'primeng/textarea';
 import { ToggleButtonModule } from 'primeng/togglebutton';
-import { CountryService } from '../service/country.service';
 import { NodeService } from '../service/node.service';
-import {CategoryService} from '../service/category.service';
-import {MessageService} from 'primeng/api';
 import {ToastModule} from 'primeng/toast';
-import {Ripple} from 'primeng/ripple';
 import {TableModule} from 'primeng/table';
-import {Tag, TagModule} from 'primeng/tag';
-import pagesRoutes from '../pages.routes';
+import {TagModule} from 'primeng/tag';
 import {LogService} from '../service/log.service';
 
 @Component({
@@ -118,7 +113,7 @@ import {LogService} from '../service/log.service';
     </p-fluid>
 
   `,
-  providers: [CountryService, NodeService, LogService, DatePipe]
+  providers: [NodeService, LogService, DatePipe]
 })
 export class LogView implements OnInit{
 
