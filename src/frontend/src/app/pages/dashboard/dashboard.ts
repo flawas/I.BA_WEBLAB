@@ -9,7 +9,7 @@ import { UserService } from '../service/user.service';
   selector: 'app-dashboard',
   imports: [CommonModule, StatsWidget, TechnologiesWidget, NotificationsWidget],
   template: `
-      <ng-container *ngIf="isLoggedIn">
+      <ng-container>
         <div class="grid grid-cols-12 gap-8">
           <app-stats-widget class="contents" />
           <div class="col-span-12 xl:col-span-8">
@@ -30,6 +30,6 @@ export class Dashboard implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.isLoggedIn = await this.userService.isLoggedIn();
+    await this.userService.isLoggedIn();
   }
 }

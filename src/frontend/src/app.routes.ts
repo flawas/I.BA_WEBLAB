@@ -7,6 +7,7 @@ import {InputTechnology} from './app/pages/input/inputTechnology';
 import {InputCategory} from './app/pages/input/inputCategory';
 import {InputRing} from './app/pages/input/inputRing';
 import {LogView} from './app/pages/input/Log';
+import {InputUsers} from './app/pages/input/inputUsers';
 
 export const appRoutes: Routes = [
   {path: '', component: Landing},
@@ -20,6 +21,7 @@ export const appRoutes: Routes = [
       {path: 'categories', component: InputCategory},
       {path: 'rings', component: InputRing},
       {path: 'logs', component: LogView},
+      {path: 'users', component: InputUsers},
     ]
   },
   {path: 'notfound', component: Notfound},

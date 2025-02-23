@@ -33,9 +33,9 @@ import {TechnologyService} from '../service/technology.service';
 import {MessageService} from 'primeng/api';
 import {ToastModule} from 'primeng/toast';
 import {TableModule} from 'primeng/table';
-import {Tag} from 'primeng/tag';
 import {map} from 'rxjs/operators';
 import {forkJoin} from 'rxjs';
+import {UserService} from '../service/user.service';
 
 @Component({
   selector: 'app-input-demo',
@@ -67,7 +67,7 @@ import {forkJoin} from 'rxjs';
     MultiSelectModule,
     ListboxModule,
     InputGroupAddonModule,
-    TextareaModule, ToastModule, TableModule, Tag
+    TextareaModule, ToastModule, TableModule
   ],
   template: `
     <p-toast></p-toast>
@@ -151,12 +151,14 @@ export class InputTechnology implements OnInit {
     private ringService: RingService,
     private technologyService: TechnologyService,
     private messageService: MessageService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private userService: UserService
   ) {
   }
 
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.userService.isLoggedIn();
     this.categoryService.getCategories().subscribe((categories) => {
       this.dropdownValuesCategories = categories.map((category: any) => {
         return {

@@ -1,9 +1,5 @@
-import {Body, Controller, Get, Param, Post, Request} from '@nestjs/common';
-import {
-    ApiOperation,
-    ApiResponse,
-    ApiTags,
-} from '@nestjs/swagger';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Request} from '@nestjs/common';
+import {ApiOperation, ApiResponse, ApiTags,} from '@nestjs/swagger';
 import {CreateUsersDto} from "./dto/create-users.dto";
 import {UsersService} from "./users.service";
 import {UsersEntity} from "./entities/users.entity";
@@ -27,6 +23,19 @@ export class UsersController {
     }
 
     @Roles(Role.Admin)
+    @Get()
+    @ApiOperation({ summary: 'Get all users' })
+    @ApiResponse({
+        status: 200,
+        description: 'Return all users',
+        type: [UsersEntity],
+    })
+    findAll(@Request() req): Promise<UsersEntity[]> {
+        return this.userService.findAll(req);
+    }
+
+
+    @Roles(Role.Admin)
     @Get(':username')
     @ApiOperation({ summary: 'Get a specific user by username' })
     @ApiResponse({
@@ -38,4 +47,32 @@ export class UsersController {
     findOneByUsername(@Request() req, @Param('username') username: string): Promise<UsersEntity> {
         return this.userService.findOneByUsername(req, username);
     }
+
+    @Roles(Role.Admin)
+    @Patch(':id')
+    @ApiOperation({ summary: 'Update a specific user by id' })
+    @ApiResponse({
+        status: 200,
+        description: 'Return updated user',
+        type: UsersEntity,
+    })
+    @ApiResponse({ status: 404, description: 'User not found' })
+    updateByUsername(@Request() req, @Param('id') id: string, @Body() createUsersDto: CreateUsersDto): Promise<UsersEntity> {
+        return this.userService.updateUser(req, id, createUsersDto);
+    }
+
+    @Roles(Role.Admin)
+    @Delete(':id')
+    @ApiOperation({ summary: 'Delete a specific user by id' })
+    @ApiResponse({
+        status: 200,
+        description: 'Return deleted user',
+        type: UsersEntity,
+    })
+    @ApiResponse({ status: 404, description: 'User not found' })
+    deleteByUsername(@Request() req, @Param('id') id: string): Promise<UsersEntity> {
+        return this.userService.deleteUser(req, id);
+    }
+
+
 }

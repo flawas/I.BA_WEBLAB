@@ -81,11 +81,12 @@ export class Register {
     if (this.registerForm.valid) {
       console.log('Registering with', this.registerForm.value.username!);
       try {
-        const response: any = await this.userService.createUser(
-          this.registerForm.value.username!,
-          this.registerForm.value.password1!,
-          this.registerForm.value.mail!
-        );
+        const user = {
+          username: this.registerForm.value.username!,
+          password: this.registerForm.value.password1!,
+          mail: this.registerForm.value.mail!
+        }
+        const response: any = await this.userService.createUser(user);
         console.log('Register successful');
         this.router.navigate(['/auth/login']);
         return 'success';

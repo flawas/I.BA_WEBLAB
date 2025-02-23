@@ -31,6 +31,7 @@ import {ToastModule} from 'primeng/toast';
 import {TableModule} from 'primeng/table';
 import {TagModule} from 'primeng/tag';
 import {LogService} from '../service/log.service';
+import {UserService} from '../service/user.service';
 
 @Component({
   selector: 'app-input-demo',
@@ -121,12 +122,14 @@ export class LogView implements OnInit{
 
   constructor(
     private logService: LogService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private userService: UserService
   ) { }
 
 
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.userService.isLoggedIn();
     this.logService.getAllLogs().subscribe((data) => {
       this.logs = data.map((log: any) => {
         return {

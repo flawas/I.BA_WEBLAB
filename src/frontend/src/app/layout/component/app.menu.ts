@@ -31,6 +31,7 @@ export class AppMenu {
                 { label: 'Rings', icon: 'pi pi-fw pi-spinner', routerLink: ['/dashboard/rings'] },
                 { label: 'Categories', icon: 'pi pi-fw pi-bars', routerLink: ['/dashboard/categories'] },
                 { label: 'Logs', icon: 'pi pi-fw pi-mobile', class: 'rotated-icon', routerLink: ['/dashboard/logs'] },
+                { label: 'Users', icon: 'pi pi-fw pi-user', class: 'rotated-icon', routerLink: ['/dashboard/users'] },
               ]
             }
         ];

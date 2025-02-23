@@ -33,5 +33,19 @@ export class UsersEntity extends Document{
     @Prop({ required: true })
     roles: string[];
 
+    @ApiProperty({
+        example: '2025-02-05T19:44:56.363Z',
+        description: 'The date of registration of the user'
+    })
+    @Prop()
+    creationDate: Date;
+
+    @ApiProperty({
+        example: '2025-02-05T19:44:56.363Z',
+        description: 'The last update of the user'
+    })
+    @Prop()
+    lastUpdate : Date;
+
 }
 export const UsersSchema = SchemaFactory.createForClass(UsersEntity);

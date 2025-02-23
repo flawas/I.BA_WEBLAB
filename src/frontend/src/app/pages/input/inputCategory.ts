@@ -31,6 +31,7 @@ import {CategoryService} from '../service/category.service';
 import {MessageService} from 'primeng/api';
 import {ToastModule} from 'primeng/toast';
 import {TableModule} from 'primeng/table';
+import {UserService} from '../service/user.service';
 
 
 @Component({
@@ -198,11 +199,13 @@ export class InputCategory implements OnInit{
 
   constructor(
     private categoryService: CategoryService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private userService: UserService
   ) { }
 
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.userService.isLoggedIn();
     this.categoryService.getCategories().subscribe((data) => {
       this.categories = data.map((category: any) => {
         return {

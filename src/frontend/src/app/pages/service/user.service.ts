@@ -13,27 +13,34 @@ export class UserService {
     private router: Router
   ) {}
 
-  getUser(username: string) {
-    return this.http.get('http://localhost:3000/users/' + username);
+  createUser(user: any): Observable<any> {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post('http://localhost:3000/users', user, { headers });
   }
 
-  async createUser(username: string, password: string, mail: string): Promise<any> {
-    const data = {
-      "username": username,
-      "password": password,
-      "mail": mail,
-      "roles": "user"
+  updateUser(user: any): Observable<any> {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const body = {
+      mail: user.mail,
+      roles: user.roles
     };
-    console.log(data.username, data.password, data.mail, data.roles);
-    try {
-      const response = await this.http.post('http://localhost:3000/users', data).toPromise();
-      console.log('User created successfully:', response);
-      return response;
-    } catch (error) {
-      console.error('Error creating user:', error);
-      throw error;
-    }
+    return this.http.patch('http://localhost:3000/users/' + user.id, body, { headers });
   }
+
+  deleteUser(user: any): Observable<any> {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.delete('http://localhost:3000/users/' + user, { headers });
+  }
+
+  getAll(): Observable<any> {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get('http://localhost:3000/users', { headers });
+  }
+
 
   async isLoggedIn(): Promise<boolean> {
     console.log('Checking if user is logged in');
@@ -41,9 +48,10 @@ export class UserService {
     if (token) {
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
       try {
-        const response: any = await this.http.post('http://localhost:3000/auth/validate-token', {headers});
-        if (await response) {
-          console.log('User is logged in, Token validated');
+        const response: any = await this.http.get('http://localhost:3000/auth/validate-token', { headers }).toPromise();
+        console.log('Response:', response);
+        if (response) { // Assuming the backend returns { valid: true } for a valid token
+          console.log('User is logged in');
           return true;
         } else {
           console.log('User is not logged in');
@@ -61,4 +69,4 @@ export class UserService {
       return false;
     }
   }
-}
+  }

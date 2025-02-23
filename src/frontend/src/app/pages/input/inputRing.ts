@@ -31,6 +31,7 @@ import {MessageService} from 'primeng/api';
 import {ToastModule} from 'primeng/toast';
 import {TableModule} from 'primeng/table';
 import {RingService} from '../service/ring.service';
+import {UserService} from '../service/user.service';
 
 @Component({
   selector: 'app-input-demo',
@@ -227,11 +228,13 @@ export class InputRing implements OnInit{
 
   constructor(
     private ringService: RingService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private userService: UserService
   ) { }
 
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.userService.isLoggedIn();
     this.ringService.getRings().subscribe((data) => {
       this.rings = data.map((Ring: any) => {
         return {
@@ -279,7 +282,7 @@ export class InputRing implements OnInit{
         window.location.reload();
       },
       (error) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error deleting Ring, please reload the page' });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error updating Ring, please reload the page' });
         console.error('Error updating Ring:', error);
       }
     );
