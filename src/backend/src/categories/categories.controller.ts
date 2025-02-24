@@ -17,7 +17,6 @@ export class CategoriesController {
   @ApiOperation({ summary: 'Create category' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 201, description: 'Category created', type: CategoriesEntity })
-  @Roles(Role.Admin)
   async create(@Request() req, @Body() createCategoriesDto: CreateCategoriesDto): Promise<CategoriesEntity> {
     return this.ringsService.create(req, createCategoriesDto);
   }
@@ -29,7 +28,6 @@ export class CategoriesController {
     description: 'All categories',
     type: CategoriesEntity,
   })
-  @Roles(Role.Admin, Role.User)
   findAll(@Request() req): Promise<CategoriesEntity[]> {
     return this.ringsService.findAll(req);
   }
@@ -41,7 +39,6 @@ export class CategoriesController {
     description: 'The found category',
     type: CategoriesEntity,
   })
-  @Roles(Role.Admin, Role.User)
   findOne(@Request() req, @Param('id') id: string): Promise<CategoriesEntity> {
     return this.ringsService.findOne(req, id);
   }
@@ -53,7 +50,6 @@ export class CategoriesController {
     description: 'The updated category',
     type: CategoriesEntity,
   })
-  @Roles(Role.Admin, Role.User)
   update(@Request() req, @Param('id') id: string, @Body() updateRingsDto: UpdateCategoriesDto): Promise<CategoriesEntity> {
     return this.ringsService.update(req, id, updateRingsDto);
   }
@@ -65,7 +61,6 @@ export class CategoriesController {
     description: 'Delete a category',
     type: CategoriesEntity,
   })
-  @Roles(Role.Admin, Role.User)
   delete(@Request() req,@Param('id') id: string): Promise<CategoriesEntity> {
     return this.ringsService.delete(req, id);
   }

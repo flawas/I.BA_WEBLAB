@@ -218,6 +218,7 @@ export class InputUsers implements OnInit{
 
   async ngOnInit() {
     await this.userService.isLoggedIn();
+    await this.userService.isAdmin();
 
     this.userService.getAll().subscribe((data) => {
       this.users = data.map((User: any) => {
@@ -247,17 +248,15 @@ export class InputUsers implements OnInit{
       roles: ['user']
     };
 
-    this.userService.createUser(User).subscribe(
-      (response) => {
-        console.log('Ring saved successfully:', response);
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Technology created successfully' });
-        window.location.reload();
-      },
-      (error) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error saving technology' });
-        console.error('Error saving technology:', error);
-      }
-    );
+    try {
+      const response = await this.userService.createUser(User);
+      console.log('User saved successfully:', response);
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'User created successfully' });
+      window.location.reload();
+    } catch (error) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error saving user' });
+      console.error('Error saving user:', error);
+    }
   }
 
   async onRowEditSave(user:any) {

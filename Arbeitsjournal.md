@@ -9,5 +9,7 @@
 | 11.02.2025 | 5h      | Template Form erstellt für die Erfassung von Technologien, auslesen der Category und Ring für Dropdown, Dashboard erweitern                                                                                             |
 | 13.02.2025 | 6h      | Allgemeine Arbeiten, Frontend und Backend verbessern                                                                                                                                                                    |
 | 19.02.2025 | 2h      | RingService in Frontend und Backend anpassen, Level einbauen                                                                                                                                                            |
-|            |         |
-| **Total**  | **30h** |                                                                                                                                                                                                                         |
+| 22.02.205  | 6h      | Diverse Verbesserungen im Frontend und Backend                                                                                                                                                                          |
+| 23.02.2025 | 8h      | Backend und Frontend fertigstellen                                                                                                                                                                                      |
+| 24.02.2025 | 6h      | Fixed Role-based access, Frontend Registrierung Fix beim API Aufruf, diverse kleine Verbesserungen                                                                                                                      | 
+| **Total**  | **50h** |                                                                                                                                                                                                                         |

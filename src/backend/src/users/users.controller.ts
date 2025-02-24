@@ -22,7 +22,7 @@ export class UsersController {
         return this.userService.create(req, createUsersDto);
     }
 
-    @Roles(Role.Admin)
+    @Public()
     @Get()
     @ApiOperation({ summary: 'Get all users' })
     @ApiResponse({

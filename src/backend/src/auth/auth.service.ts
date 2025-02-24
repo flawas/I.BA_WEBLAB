@@ -11,10 +11,10 @@ import {request, Request} from "express";
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
-    private jwtService: JwtService,
-    private passwordService: PasswordsService,
-    private logService: LogService
+      private usersService: UsersService,
+      private jwtService: JwtService,
+      private passwordService: PasswordsService,
+      private logService: LogService
   ) {}
 
   async signIn(request: Request, username: string, plainTextPassword: string) {
@@ -57,9 +57,9 @@ export class AuthService {
       await this.logService.create(request, createLogDto);
       return true;
     } else {
-        const createLogDto = { service: ServiceName.AUTH, severity: Severity.DEBUG, description: 'User is not admin', public: false } as CreateLogDto;
-        await this.logService.create(request, createLogDto);
-        return false;
+      const createLogDto = { service: ServiceName.AUTH, severity: Severity.DEBUG, description: 'User is not admin', public: false } as CreateLogDto;
+      await this.logService.create(request, createLogDto);
+      return false;
     }
 
   }
