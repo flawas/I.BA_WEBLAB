@@ -2,6 +2,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,9 @@ export class UserService {
     private router: Router
   ) {}
 
-  createUser(user: any): Observable<any> {
-    const token = localStorage.getItem('authToken');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post('http://localhost:3000/users', user, { headers });
+  async createUser(user: any): Promise<any> {
+    console.log(user);
+    return this.http.post('http://localhost:3000/users', user).toPromise();
   }
 
   updateUser(user: any): Observable<any> {
@@ -41,6 +41,15 @@ export class UserService {
     return this.http.get('http://localhost:3000/users', { headers });
   }
 
+  isAdmin(): Promise<boolean> {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get('http://localhost:3000/auth/profile', { headers }).pipe(
+      map((response: any) => {
+        return response.roles && response.roles.includes('admin');
+      })
+    ).toPromise();
+  }
 
   async isLoggedIn(): Promise<boolean> {
     console.log('Checking if user is logged in');
@@ -69,4 +78,7 @@ export class UserService {
       return false;
     }
   }
-  }
+
+
+
+}

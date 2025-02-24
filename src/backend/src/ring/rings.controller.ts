@@ -1,10 +1,5 @@
 import {Body, Controller, Delete, Get, Param, Patch, Post, Request} from '@nestjs/common';
-import {
-    ApiBearerAuth,
-    ApiOperation,
-    ApiResponse,
-    ApiTags,
-} from '@nestjs/swagger';
+import {ApiBearerAuth, ApiOperation, ApiResponse, ApiTags,} from '@nestjs/swagger';
 import {RingsService} from './rings.service';
 import {CreateRingsDto} from "./dto/create-rings.dto";
 import {RingsEntity} from './entities/ringsEntity';
@@ -15,7 +10,6 @@ import {Role} from "../roles/roles.enum";
 @ApiBearerAuth()
 @ApiTags('rings')
 @Controller('rings')
-@Roles(Role.Admin)
 export class RingsController {
     constructor(private readonly ringsService: RingsService) {
     }
@@ -24,6 +18,7 @@ export class RingsController {
     @ApiOperation({summary: 'Create ring'})
     @ApiResponse({status: 403, description: 'Forbidden.'})
     @ApiResponse({status: 201, description: 'Ring created', type: RingsEntity})
+    @Roles(Role.Admin)
     async create(@Request() req, @Body() createRingsDto: CreateRingsDto): Promise<RingsEntity> {
         return this.ringsService.create(req, createRingsDto);
     }
@@ -35,6 +30,7 @@ export class RingsController {
         description: 'All rings',
         type: RingsEntity,
     })
+    @Roles(Role.Admin, Role.User)
     async findAll(@Request() req): Promise<RingsEntity[]> {
         return this.ringsService.findAll(req);
     }
@@ -46,6 +42,7 @@ export class RingsController {
         description: 'The found ring',
         type: RingsEntity,
     })
+    @Roles(Role.Admin, Role.User)
     async findOne(@Request() req, @Param('id') id: string): Promise<RingsEntity> {
         return this.ringsService.findOne(req, id);
     }
@@ -57,6 +54,7 @@ export class RingsController {
         description: 'The updated ring',
         type: RingsEntity,
     })
+    @Roles(Role.Admin)
     async update(@Request() req, @Param('id') id: string, @Body() updateRingsDto: UpdateRingsDto): Promise<RingsEntity> {
         return this.ringsService.update(req, id, updateRingsDto);
     }
@@ -68,6 +66,7 @@ export class RingsController {
         description: 'Delete a ring',
         type: RingsEntity,
     })
+    @Roles(Role.Admin)
     async delete(@Request() req, @Param('id') id: string): Promise<RingsEntity> {
         return this.ringsService.delete(req, id);
     }

@@ -8,7 +8,6 @@ import {PasswordModule} from 'primeng/password';
 import {Component} from '@angular/core';
 import {RippleModule} from 'primeng/ripple';
 import {AppFloatingConfigurator} from '../../layout/component/app.floatingconfigurator';
-import {async} from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -77,19 +76,27 @@ export class Register {
     }
   }
 
-  async register(): Promise<string | undefined> {
+  async register() {
     if (this.registerForm.valid) {
       console.log('Registering with', this.registerForm.value.username!);
       try {
         const user = {
           username: this.registerForm.value.username!,
           password: this.registerForm.value.password1!,
-          mail: this.registerForm.value.mail!
-        }
+          mail: this.registerForm.value.mail!,
+          roles: ["user"]
+        };
         const response: any = await this.userService.createUser(user);
-        console.log('Register successful');
-        this.router.navigate(['/auth/login']);
-        return 'success';
+        console.log('Register response:', response);
+
+        if (response && response.username) {
+          console.log('Register successful');
+          this.router.navigate(['/auth/login']);
+          return 'success';
+        } else {
+          console.error('Register failed with response code', response.status);
+          return 'error';
+        }
       } catch (error: any) {
         console.error('Register failed', error);
         this.router.navigate(['/auth/error']);
@@ -97,7 +104,7 @@ export class Register {
       }
     } else {
       console.log('Form is invalid');
-      return undefined;
+      return 'invalid';
     }
   }
 }

@@ -9,6 +9,8 @@ import { TechnologiesService } from './technologies.service';
 import { CreateTechnologiesDto } from './dto/create-technologies.dto';
 import { TechnologiesEntity } from './entities/technologies.entity';
 import {UpdateTechnologiesDto} from "./dto/update-technologies.dto";
+import {Role} from "../roles/roles.enum";
+import {Roles} from "../roles/decorators/roles.decorator";
 
 @ApiBearerAuth()
 @ApiTags('technologies')
@@ -22,6 +24,7 @@ export class TechnologiesController {
   @ApiResponse({
     status: 201,
     description: 'The record has been successfully created.'})
+  @Roles(Role.Admin)
   async create(@Request() req, @Body() createTechnologiesDto: CreateTechnologiesDto): Promise<TechnologiesEntity> {
     return this.technologiesService.create(req, createTechnologiesDto);
   }
@@ -33,6 +36,7 @@ export class TechnologiesController {
     description: 'The found record',
     type: TechnologiesEntity,
   })
+  @Roles(Role.Admin, Role.User)
   findOne(@Request() req, @Param('id') id: string): Promise<TechnologiesEntity> {
     return this.technologiesService.findOne(req, id);
   }
@@ -44,6 +48,7 @@ export class TechnologiesController {
     description: 'All technologies',
     type: [TechnologiesEntity],
   })
+  @Roles(Role.Admin, Role.User)
   findAll(@Request() req): Promise<TechnologiesEntity[]> {
     return this.technologiesService.findAll(req);
   }
@@ -55,6 +60,7 @@ export class TechnologiesController {
       description: 'The found record',
       type: TechnologiesEntity,
   })
+  @Roles(Role.Admin)
   update(@Request() req, @Param('id') id: string, @Body() updateTechnologiesDto: UpdateTechnologiesDto): Promise<TechnologiesEntity> {
       return this.technologiesService.update(req, id, updateTechnologiesDto);
   }
@@ -66,6 +72,7 @@ export class TechnologiesController {
       description: 'The found record',
       type: TechnologiesEntity,
   })
+  @Roles(Role.Admin)
   delete(@Request() req, @Param('id') id: string): Promise<TechnologiesEntity> {
     return this.technologiesService.delete(req, id);
   }

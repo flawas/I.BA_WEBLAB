@@ -1,4 +1,4 @@
-version: '3.8'
+version: '1.0'
 
 services:
   mongodb:
@@ -18,6 +18,14 @@ services:
       - mongodb
     environment:
       MONGO_URL: mongodb://mongodb:27017/techradardb
+
+  frontend:
+    image: flawas/weblab-frontend:latest
+    container_name: weblab-frontend
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
 
 volumes:
   mongo-data:

@@ -4,7 +4,7 @@ FROM node:18
 # Set the working directory
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json
+# Copy the package.json and package-lock.json files
 COPY package*.json ./
 
 # Install dependencies
@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Expose the port the app runs on
-EXPOSE 3000
+EXPOSE 4200
 
 # Define the command to run the application
 CMD ["npm", "start"]

@@ -1,13 +1,8 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post, Req, Request} from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-import { CategoriesService } from './categories.service';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Request} from '@nestjs/common';
+import {ApiBearerAuth, ApiOperation, ApiResponse, ApiTags,} from '@nestjs/swagger';
+import {CategoriesService} from './categories.service';
 import {CreateCategoriesDto} from "./dto/create-categories.dto";
-import { CategoriesEntity } from './entities/categories.entity';
+import {CategoriesEntity} from './entities/categories.entity';
 import {UpdateCategoriesDto} from "./dto/update-categories.dto";
 import {Roles} from "../roles/decorators/roles.decorator";
 import {Role} from "../roles/roles.enum";
@@ -34,6 +29,7 @@ export class CategoriesController {
     description: 'All categories',
     type: CategoriesEntity,
   })
+  @Roles(Role.Admin, Role.User)
   findAll(@Request() req): Promise<CategoriesEntity[]> {
     return this.ringsService.findAll(req);
   }
@@ -45,6 +41,7 @@ export class CategoriesController {
     description: 'The found category',
     type: CategoriesEntity,
   })
+  @Roles(Role.Admin, Role.User)
   findOne(@Request() req, @Param('id') id: string): Promise<CategoriesEntity> {
     return this.ringsService.findOne(req, id);
   }
@@ -56,6 +53,7 @@ export class CategoriesController {
     description: 'The updated category',
     type: CategoriesEntity,
   })
+  @Roles(Role.Admin, Role.User)
   update(@Request() req, @Param('id') id: string, @Body() updateRingsDto: UpdateCategoriesDto): Promise<CategoriesEntity> {
     return this.ringsService.update(req, id, updateRingsDto);
   }
@@ -67,6 +65,7 @@ export class CategoriesController {
     description: 'Delete a category',
     type: CategoriesEntity,
   })
+  @Roles(Role.Admin, Role.User)
   delete(@Request() req,@Param('id') id: string): Promise<CategoriesEntity> {
     return this.ringsService.delete(req, id);
   }
