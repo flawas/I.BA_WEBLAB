@@ -238,7 +238,7 @@ Die Entscheidung für PrimeNG ist auf die UI-Komponenten zurückzuführen. Prime
 
 Die Entscheidung für NPM ist auf die Paketverwaltung zurückzuführen. NPM ist der Paketmanager für JavaScript und bietet viele Pakete. Diese Pakete können einfach in das System integriert werden.
 
-# Bausteinsicht {#section-building-block-view}
+# Bausteinsicht
 
 Das Gesamtsystem kann in drei Teile unterteilt werden. Dabei handelt es sich um drei verschiedene Container. Es werden folgende Container benötigt, um das System zu verwenden:
 * Datenbank (MongoDB)
