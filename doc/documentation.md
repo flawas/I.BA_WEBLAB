@@ -162,7 +162,7 @@ CreateLogDTO:
   "user": "string"
 }
 ````
-
+#### Benutzer
 * POST /auth/login
 * GET /auth/profile
 * GET /auth/validate-token
@@ -196,7 +196,7 @@ UpdateUserDto:
   ]
 }
 ````
-
+#### Passwörter
 * POST /passwords/hash
 * POST /passwords/compare
 
@@ -245,9 +245,7 @@ Das Gesamtsystem kann in drei Teile unterteilt werden. Dabei handelt es sich um 
 * Backend (NestJS)
 * Frontend (Angular)
 
-Das Frontend kommuniziert mittels REST-Call mit dem Backend. Das Backend implementiert die Datenbank auf dem Port 270127.
-
-![Gesamtsystem](images/Gesamtsystem.png)
+![Gesamtsystem](images/Bausteinsicht.png)
 
 ::: formalpara-title
 **Inhalt**
