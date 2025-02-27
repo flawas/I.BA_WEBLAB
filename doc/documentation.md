@@ -1,10 +1,10 @@
-# Einführung und Ziele {#section-introduction-and-goals}
+# Einführung und Ziele
 
 Der Technologie-Radar ist ein passendes Werkzeug für Technologie-Management in einem Unternehmen, für ein Produkte-Team oder auch für sich als Software Architekt oder Software Engineer. Es gibt bereits verschiedene Umsetzungen von Technologie-Radare. Das prominenteste Beispiel ist der Technology Radar von ThoughtWorks.
 
 Dabei werden die einzelnen Technologien jeweils in sogenannten vier Quadranten eingeordnet (Kategorien wie z.B. Techniques, Tools, Platforms, Languages & Frameworks). Die Maturität wird über sogn. Ringe eingestuft (Assess, Trial, Adopt, Hold).
 
-## Aufgabenstellung {#_aufgabenstellung}
+## Aufgabenstellung
 Als Software-Anbieter möchten Sie den Technologie-Radar als Software as a Service anbieten. Der Technologie-Radar besteht aus zwei elementaren Teilen:
 
 * einer Technologie-Radar-Administration, in welcher die Technologien vom CTO oder einm Tech-Lead verwaltet werden können
@@ -15,19 +15,19 @@ Optionaler Teil (nicht Teil der Aufgabenstellung):
 * einer System-Administration, in welche neue Unternehmen resp. Mandanten erfasst und Personen eingeladen werden können.
 
 
-## Qualitätsziele {#_qualit_tsziele}
+## Qualitätsziele
 
 Das Projekt hat in der Aufgebenstellung drei Qualitätsziele definiert:
 * Der Technologie-Radar-Viewer soll neben der Desktop-Ansicht, auch für die Mobile-Ansicht optimiert sein.
 * Der Technologie-Radar-Viewer soll innert 1s geladen sein.
 * Sämtliche Anmeldungen an die Technologie-Radar-Administration werden aufgezeichnet.
 
-# Randbedingungen {#section-architecture-constraints}
+# Randbedingungen
 In der Gestaltung (UI) ist der Techradar frei umzusetzen. Die Darstellung der Techniken kann mittels eines Kreises, Quadranten oder Tabelle erfolgen.
 
 Die einzige Bedingung ist die Verwendung von JavaScript für die Frontend- und Backendentwicklung.
 
-# Kontextabgrenzung {#section-context-and-scope}
+# Kontextabgrenzung
 
 Die Benutzer können im Grundsatz alles lesen. Ausgenommen davon sind Technologien, die noch nicht veröffentlicht sind. Diese Technologien sind nur für Administratoren sichtbar. Administratoren können alle Technologien lesen und bearbeiten. Weiter kann der Administrator Ringe und Kategorien erfassen. 
 
@@ -41,56 +41,181 @@ Im Techradar gibt es zwei Benutzerrollen:
 > [!NOTE]  
 > Aktuell können Benutzerrollen nur in der Datenbank vergeben werden. Ein neuer Benutzer hat Standardmässig die Benutzer-Rolle zugeteilt. Ein Administrator kann die Benutzer-Rolle in der Datenbank auf Administrator ändern.
 
-## Frontend
+### Frontend
 
 Alle Eingaben der Benutzer und Benutzer und Administratoren erfolgen über das Frontend. Das Frontend leitet die Befehle an das Backend weiter. Das Backend verarbeitet die Befehle und speichert die Daten in der Datenbank. Die Entscheidung, ob ein Benutzer genügend Rechte hat, um eine Aktion auszuführen, wird im Backend entschieden.
 
-## Backend
+### Backend
 
 Im Backend erfolgen alle Aufrufe mittels REST. Die Aufrufe wurden wo sinnvoll, nach CRUD (Create, Read, Update, Delete) gestaltet. Das Backend enthält jegliche Logik und Schnittstellen zur Datenbank.
 
-## Fachlicher Kontext {#_fachlicher_kontext}
+## Fachlicher Kontext 
 
 Die Daten werden mittels DTOs zwischen dem Frontend und dem Backend hin und her gegeben. Die DTOs sind in der Datenbank gespeichert. Die DTOs werden im Backend in Entities umgewandelt und in der Datenbank gespeichert. Die DTOs werden im Frontend entsprechend umgewandelt und dargestellt.
 
 
 Die Kommunikation zwischen Frontend und Backend erfolgt mittels REST. Die REST-Aufrufe werden im Backend verarbeitet und in der Datenbank gespeichert. Die REST-Aufrufe werden im Frontend entsprechend verarbeitet und dargestellt.
 
-## Technischer Kontext {#_technischer_kontext}
+## Technischer Kontext 
 
-::: formalpara-title
-**Inhalt**
-:::
+### Frontend
+Das Frontend enthält keine veröffentlichten Schnittstellen. Der Benutzer kann lediglich mit dem GUI mit dem System interagieren. 
 
-Technische Schnittstellen (Kanäle, Übertragungsmedien) zwischen dem
-System und seiner Umwelt. Zusätzlich eine Erklärung (*mapping*), welche
-fachlichen Ein- und Ausgaben über welche technischen Kanäle fließen.
+### Backend
 
-::: formalpara-title
-**Motivation**
-:::
+Das Backend enthält REST-Schnittstellen. Folgende Endpunkte sind verfügbar:
 
-Viele Stakeholder treffen Architekturentscheidungen auf Basis der
-technischen Schnittstellen des Systems zu seinem Kontext.
+#### Kategorien
+* GET /technologies
+* GET /technologies/{id}
+* POST /technologies
+* PATCH /technologies/{id}
+* DELETE /technologies/{id}
 
-Insbesondere bei der Entwicklung von Infrastruktur oder Hardware sind
-diese technischen Schnittstellen durchaus entscheidend.
+CreateTechnologiesDTO:
+```
+{
+  "name": "string",
+  "fk_ring": "string",
+  "fk_category": "string",
+  "description": "string",
+  "description_categorisation": "string",
+  "published": true
+}
+```
 
-::: formalpara-title
-**Form**
-:::
+UpdateTechnologiesDTO:
+```
+{
+  "name": "string",
+  "fk_ring": "string",
+  "fk_category": "string",
+  "description": "string",
+  "description_categorisation": "string",
+  "published": true
+}
+```
+#### Ringe
 
-Beispielsweise UML Deployment-Diagramme mit den Kanälen zu
-Nachbarsystemen, begleitet von einer Tabelle, die Kanäle auf
-Ein-/Ausgaben abbildet.
+* GET /rings
+* GET /rings/{id}
+* POST /rings
+* PATCH /rings/{id}
+* DELETE /rings/{id}
 
-**\<Diagramm oder Tabelle>**
+CreateRingDto:
+````
+{
+  "name": "string",
+  "description": "string",
+  "level": 0
+}
+````
+> [!NOTE]  
+> Das Level darf maximal einmal vorhanden sein. Es braucht eine Einmaligkeit, um die Sortierung zu gewährleisten! Dies wird im Backendservice geprüft.
 
-**\<optional: Erläuterung der externen technischen Schnittstellen>**
+UpdateRingDto:
+````
+{
+  "name": "string",
+  "description": "string",
+  "level": 0
+}
+````
+> [!NOTE]  
+> Das Level darf maximal einmal vorhanden sein. Es braucht eine Einmaligkeit, um die Sortierung zu gewährleisten! Dies wird im Backendservice geprüft.
 
-**\<Mapping fachliche auf technische Schnittstellen>**
+#### Kategorien
+* GET /categories
+* GET /categories/{id}
+* POST /categories
+* PATCH /categories/{id}
+* DELETE /categories/{id}
 
-# Lösungsstrategie {#section-solution-strategy}
+CreateCategoryDto:
+````
+{
+  "name": "string",
+  "description": "string"
+}
+````
+UpdateCategoryDto:
+````
+{
+  "name": "string",
+  "description": "string"
+}
+````
+
+#### Logs
+* GET /logs
+* GET /logs/public
+* POST /logs
+
+CreateLogDTO:
+````
+{
+  "service": "Auth service",
+  "severity": "debug",
+  "description": "string",
+  "public": true,
+  "user": "string"
+}
+````
+
+* POST /auth/login
+* GET /auth/profile
+* GET /auth/validate-token
+
+* GET /users
+* GET /users/{username}
+* POST /users
+* PATCH /users/{id}
+* DELETE /users/{id}
+
+CreateUserDTO:
+````
+{
+  "username": "string",
+  "password": "string",
+  "mail": "user@example.com",
+  "roles": [
+    "user"
+  ]
+}
+````
+
+UpdateUserDto:
+````
+{
+  "username": "string",
+  "password": "string",
+  "mail": "user@example.com",
+  "roles": [
+    "string"
+  ]
+}
+````
+
+* POST /passwords/hash
+* POST /passwords/compare
+
+CreatePasswordHash:
+````
+{
+  "plainTextPassword": "string"
+}
+````
+
+ComparePasswordHash:
+````
+{
+  "plainTextPassword": "string",
+  "hashedPassword": "string"
+}
+````
+
+# Lösungsstrategie
 Das System wurde in drei Teile unterteilt. Dies umfasst folgende Teile:
 
 * Datenbank
