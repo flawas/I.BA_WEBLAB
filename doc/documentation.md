@@ -69,38 +69,40 @@ Das Backend enthält REST-Schnittstellen. Folgende Endpunkte sind verfügbar:
 ````
 * GET /technologies
 ````
-  | Parameter | Type      | Description  |
-  |:----------|:----------|:-------------|
-  | `request` | `request` | **Required**.|
+  | Parameter | Type      | Description    |
+  |:----------|:----------|:---------------|
+  | `request` | `request` | **Required**.  |
 ````
 * GET /technologies/{id}
 ````
-  | Parameter | Type      | Description  |
-    |:----------|:----------|:-------------|
-  | `request` | `request` | **Required**.|
+| Parameter | Type      | Description                                       |
+|:----------|:----------|:--------------------------------------------------|
+| `request` | `request` | **Required**.                                     |
+| `id`      | `string`  | **Required**. The id of the requested technology. |
 
 ````
 * POST /technologies
 ````
-| Parameter | Type      | Description    |
-    |:----------|:----------|:---------------|
-| `request` | `request` | **Required**.  |
-| `CreateTechnologiesDTO`     | `string`  | **Required**.  |
+| Parameter               | Type            | Description                                   |
+|:------------------------|:----------------|:----------------------------------------------|
+| `request`               | `request`       | **Required**.                                 |
+| `CreateTechnologiesDTO` | `string`        | **Required**. The DTO to create a technology. |
 ````
 * PATCH /technologies/{id}
 ````
-| Parameter | Type      | Description   |
-    |:----------|:----------|:--------------|
-| `request` | `request` | **Required**. |
-| `UpdateTechnologiesDTO`     | `string`  | **Required**. |
+| Parameter               | Type            | Description                                   |
+|:------------------------|:----------------|:----------------------------------------------|
+| `request`               | `request`       | **Required**.                                 |
+| `UpdateTechnologiesDTO` | `string`        | **Required**. The DTO to update a technology. |
 ````
 * DELETE /technologies/{id}
 ````
 | Parameter        | Type      | Description                                       |
-    |:-----------------|:----------|:--------------------------------------------------|
+|:-----------------|:----------|:--------------------------------------------------|
 | `request`        | `request` | **Required**.                                     |
 | `technologiesID` | `string`  | **Required**. The id of the technology to delete. |
 
+##### DTOs
 CreateTechnologiesDTO:
 ```
 {
@@ -125,13 +127,42 @@ UpdateTechnologiesDTO:
 }
 ```
 #### Ringe
-
+````
 * GET /rings
+````
+| Parameter | Type      | Description    |
+|:----------|:----------|:---------------|
+| `request` | `request` | **Required**.  |
+````
 * GET /rings/{id}
+````
+| Parameter | Type      | Description                                 |
+|:----------|:----------|:--------------------------------------------|
+| `request` | `request` | **Required**.                               |
+| `id`      | `string`  | **Required**. The id of the requested ring. |
+````
 * POST /rings
+````
+| Parameter       | Type            | Description                             |
+|:----------------|:----------------|:----------------------------------------|
+| `request`       | `request`       | **Required**.                           |
+| `CreateRingDTO` | `string`        | **Required**. The DTO to create a ring. |
+````
 * PATCH /rings/{id}
+````
+| Parameter       | Type            | Description                             |
+|:----------------|:----------------|:----------------------------------------|
+| `request`       | `request`       | **Required**.                           |
+| `UpdateRingDTO` | `string`        | **Required**. The DTO to update a ring. |
+````
 * DELETE /rings/{id}
+````
+| Parameter | Type      | Description                                 |
+|:----------|:----------|:--------------------------------------------|
+| `request` | `request` | **Required**.                               |
+| `ringsID` | `string`  | **Required**. The id of the ring to delete. |
 
+##### DTOs
 CreateRingDto:
 ````
 {
@@ -155,12 +186,42 @@ UpdateRingDto:
 > Das Level darf maximal einmal vorhanden sein. Es braucht eine Einmaligkeit, um die Sortierung zu gewährleisten! Dies wird im Backendservice geprüft.
 
 #### Kategorien
+````
 * GET /categories
+````
+| Parameter | Type      | Description    |
+|:----------|:----------|:---------------|
+| `request` | `request` | **Required**.  |
+````
 * GET /categories/{id}
+````
+| Parameter | Type      | Description                                     |
+|:----------|:----------|:------------------------------------------------|
+| `request` | `request` | **Required**.                                   |
+| `id`      | `string`  | **Required**. The id of the requested category. |
+````
 * POST /categories
+````
+| Parameter           | Type            | Description                                 |
+|:--------------------|:----------------|:--------------------------------------------|
+| `request`           | `request`       | **Required**.                               |
+| `CreateCategoryDTO` | `string`        | **Required**. The DTO to create a category. |
+````
 * PATCH /categories/{id}
+````
+| Parameter           | Type            | Description                                 |
+|:--------------------|:----------------|:--------------------------------------------|
+| `request`           | `request`       | **Required**.                               |
+| `UpdateCategoryDTO` | `string`        | **Required**. The DTO to update a category. |
+````
 * DELETE /categories/{id}
+````
+| Parameter    | Type      | Description                                     |
+|:-------------|:----------|:------------------------------------------------|
+| `request`    | `request` | **Required**.                                   |
+| `categoryId` | `string`  | **Required**. The id of the category to delete. |
 
+##### DTOs
 CreateCategoryDto:
 ````
 {
@@ -177,10 +238,27 @@ UpdateCategoryDto:
 ````
 
 #### Logs
+`````
 * GET /logs
+`````
+| Parameter | Type      | Description    |
+|:----------|:----------|:---------------|
+| `request` | `request` | **Required**.  |
+`````
 * GET /logs/public
+`````
+| Parameter | Type      | Description    |
+|:----------|:----------|:---------------|
+| `request` | `request` | **Required**.  |
+`````
 * POST /logs
+`````
+| Parameter      | Type            | Description                            |
+|:---------------|:----------------|:---------------------------------------|
+| `request`      | `request`       | **Required**.                          |
+| `CreateLogDTO` | `string`        | **Required**. The DTO to create a log. |
 
+##### DTOs
 CreateLogDTO:
 ````
 {
@@ -191,17 +269,79 @@ CreateLogDTO:
   "user": "string"
 }
 ````
-#### Benutzer
+#### Authentifizierung
+````
 * POST /auth/login
+````
+| Parameter   | Type            | Description                                        |
+|:------------|:----------------|:---------------------------------------------------|
+| `request`   | `request`       | **Required**.                                      |
+| `SignInDto` | `string`        | **Required**. The DTO to create a sign in request. |
+````
 * GET /auth/profile
+````
+| Parameter   | Type            | Description                                        |
+|:------------|:----------------|:---------------------------------------------------|
+| `request`   | `request`       | **Required**.                                      |
+
+````
 * GET /auth/validate-token
+````
+| Parameter   | Type            | Description                                        |
+|:------------|:----------------|:---------------------------------------------------|
+| `request`   | `request`       | **Required**.                                      |
 
+##### DTOs
+SignInDto:
+`````
+{
+    "username": "MyUsername",
+    "password": "MySecretPassword"
+}
+`````
+
+#### Benutzer
+
+````
 * GET /users
-* GET /users/{username}
-* POST /users
-* PATCH /users/{id}
-* DELETE /users/{id}
+````
+| Parameter   | Type            | Description                                        |
+|:------------|:----------------|:---------------------------------------------------|
+| `request`   | `request`       | **Required**.                                      |
 
+````
+* GET /users/{username}
+````
+| Parameter   | Type            | Description                                        |
+|:------------|:----------------|:---------------------------------------------------|
+| `request`   | `request`       | **Required**.                                      |
+| `username`  | `string`        | **Required**. The username of the requested user.  |
+
+````
+* POST /users
+````
+| Parameter       | Type         | Description                                   |
+|:----------------|:-------------|:----------------------------------------------|
+| `request`       | `request`    | **Required**.                                 |
+| `CreateUserDTO` | `string`     | **Required**. The DTO to create a user.       |
+
+````
+* PATCH /users/{id}
+````
+| Parameter       | Type      | Description                              |
+|:----------------|:----------|:-----------------------------------------|
+| `request`       | `request` | **Required**.                            |
+| `UpdateUserDTO` | `string`  | **Required**. The DTO to update a user.  |
+
+`````
+* DELETE /users/{id}
+`````
+| Parameter | Type      | Description                                 |
+|:----------|:----------|:--------------------------------------------|
+| `request` | `request` | **Required**.                               |
+| `userId`  | `string`  | **Required**. The id of the user to delete. |
+
+##### DTOs
 CreateUserDTO:
 ````
 {
@@ -226,9 +366,23 @@ UpdateUserDto:
 }
 ````
 #### Passwörter
+````
 * POST /passwords/hash
-* POST /passwords/compare
+````
+| Parameter            | Type      | Description                                      |
+|:---------------------|:----------|:-------------------------------------------------|
+| `request`            | `request` | **Required**.                                    |
+| `CreatePasswordHash` | `string`  | **Required**. The DTO to create a password hash. |
 
+````
+* POST /passwords/compare
+````
+| Parameter             | Type      | Description                                       |
+|:----------------------|:----------|:--------------------------------------------------|
+| `request`             | `request` | **Required**.                                     |
+| `ComparePasswordHash` | `string`  | **Required**. The DTO to compare a password hash. |
+
+##### DTOs
 CreatePasswordHash:
 ````
 {
