@@ -66,11 +66,40 @@ Das Frontend enthält keine veröffentlichten Schnittstellen. Der Benutzer kann 
 Das Backend enthält REST-Schnittstellen. Folgende Endpunkte sind verfügbar:
 
 #### Kategorien
+````
 * GET /technologies
+````
+  | Parameter | Type      | Description  |
+  |:----------|:----------|:-------------|
+  | `request` | `request` | **Required**.|
+````
 * GET /technologies/{id}
+````
+  | Parameter | Type      | Description  |
+    |:----------|:----------|:-------------|
+  | `request` | `request` | **Required**.|
+
+````
 * POST /technologies
+````
+| Parameter | Type      | Description    |
+    |:----------|:----------|:---------------|
+| `request` | `request` | **Required**.  |
+| `CreateTechnologiesDTO`     | `string`  | **Required**.  |
+````
 * PATCH /technologies/{id}
+````
+| Parameter | Type      | Description   |
+    |:----------|:----------|:--------------|
+| `request` | `request` | **Required**. |
+| `UpdateTechnologiesDTO`     | `string`  | **Required**. |
+````
 * DELETE /technologies/{id}
+````
+| Parameter        | Type      | Description                                       |
+    |:-----------------|:----------|:--------------------------------------------------|
+| `request`        | `request` | **Required**.                                     |
+| `technologiesID` | `string`  | **Required**. The id of the technology to delete. |
 
 CreateTechnologiesDTO:
 ```
