@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {TechnologyService} from '../../service/technology.service';
 import {CategoryService} from '../../service/category.service';
 import {RingService} from '../../service/ring.service';
+import {UserService} from '../../service/user.service';
 
 @Component({
     standalone: true,
@@ -34,8 +35,6 @@ import {RingService} from '../../service/ring.service';
                         <i class="pi pi-bars text-orange-500 !text-xl"></i>
                     </div>
                 </div>
-                <span class="text-primary font-medium">%52+ </span>
-                <span class="text-muted-color">since last week</span>
             </div>
         </div>
         <div class="col-span-12 lg:col-span-6 xl:col-span-3">
@@ -49,8 +48,6 @@ import {RingService} from '../../service/ring.service';
                 <i class="pi pi-spinner text-purple-500 !text-xl"></i>
               </div>
             </div>
-            <span class="text-primary font-medium">85 </span>
-            <span class="text-muted-color">responded</span>
           </div>
         </div>
         <div class="col-span-12 lg:col-span-6 xl:col-span-3">
@@ -58,14 +55,12 @@ import {RingService} from '../../service/ring.service';
                 <div class="flex justify-between mb-4">
                     <div>
                         <span class="block text-muted-color font-medium mb-4">Users</span>
-                        <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">28441</div>
+                        <div class="text-surface-900 dark:text-surface-0 font-medium text-xl" id="usersPublished"></div>
                     </div>
                     <div class="flex items-center justify-center bg-cyan-100 dark:bg-cyan-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
                         <i class="pi pi-users text-cyan-500 !text-xl"></i>
                     </div>
                 </div>
-                <span class="text-primary font-medium">520 </span>
-                <span class="text-muted-color">newly registered</span>
             </div>
         </div>
         `
@@ -77,7 +72,8 @@ export class StatsWidget {
     private categoryService: CategoryService,
     private ringService: RingService,
     private renderer: Renderer2,
-    private el: ElementRef
+    private el: ElementRef,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
@@ -99,6 +95,12 @@ export class StatsWidget {
     this.ringService.getRingCount().subscribe((count) => {
       const ringsCountElement = this.el.nativeElement.querySelector('#ringsPublished');
       this.renderer.setProperty(ringsCountElement, 'innerText', count + " Rings");
+    });
+
+    this.userService.getAll().subscribe((users) => {
+      const userCount = users.length;
+      const usersCountElement = this.el.nativeElement.querySelector('#usersPublished');
+      this.renderer.setProperty(usersCountElement, 'innerText', userCount + " Users");
     });
 
   }
