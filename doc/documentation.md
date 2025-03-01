@@ -1,3 +1,4 @@
+# Techradar Dokumentation
 # Einführung und Ziele
 
 Der Technologie-Radar ist ein passendes Werkzeug für Technologie-Management in einem Unternehmen, für ein Produkte-Team oder auch für sich als Software Architekt oder Software Engineer. Es gibt bereits verschiedene Umsetzungen von Technologie-Radare. Das prominenteste Beispiel ist der Technology Radar von ThoughtWorks.
@@ -63,15 +64,71 @@ Das Frontend enthält keine veröffentlichten Schnittstellen. Der Benutzer kann 
 
 ### Backend
 
-Das Backend enthält REST-Schnittstellen. Folgende Endpunkte sind verfügbar:
+Das Backend wird über REST-Schnittstellen bedient. Um die Wartbarkeit zu Erhöhgen, wurde der Standard von OpenAPI verwendet. 
+
+# Lösungsstrategie
+Das System wurde in drei Teile unterteilt. Dies umfasst folgende Teile:
+
+* Datenbank
+* Backend
+* Frontend
+
+Als Datenbank wird eine MongoDB-Datenbank verwendet. Diese kann in einem Docker-Container oder lokal betrieben werden.
+
+Das Backend und Frontend wird in je seperaten Docker Containern betrieben und basiert auf [NPM](https://www.npmjs.com) und [TypeScript](https://www.typescriptlang.org). Das Backend ist in [NestJS](https://nestjs.com) geschrieben. Die Entscheidung für das Backend ist auf NestJS gefallen, da das Framework viele Integrationen besitzt. Dazu gehören Integrationen wie Authentifizierung, OpenAPI und rollenbasierter Zugriff. Das Frontend basiert auf einem Template von [PrimeNG](https://primeng.org). Bei PrimeNG handelt es sich um eine UI-Suite für Angular.
+
+Die Idee der Dockerisierung kam schon relativ zu Beginn auf. Der Hintergedanke ist dabei die einfache Bereitstellung des Systems. Durch die Dockerisierung kann das System einfach auf einem Server bereitgestellt werden. Dabei ist es egal, ob es sich um einen Server in der Cloud oder lokal handelt.
+
+Die Entscheidung für TypeScript ist auf die Typsicherheit zurückzuführen. TypeScript ist eine Erweiterung von JavaScript und bietet die Möglichkeit, Typen zu definieren. Dies erleichtert die Entwicklung und verhindert Fehler.
+
+Die Entscheidung für MongoDB ist auf die Flexibilität zurückzuführen. MongoDB ist eine NoSQL-Datenbank und speichert Daten in Dokumenten. Dies ermöglicht eine flexible Speicherung von Daten. Dabei ist es egal, ob die Datenstruktur sich ändert. MongoDB ist in der Lage, die Daten flexibel zu speichern.
+
+Die Entscheidung für NestJS ist auf die Integrationen zurückzuführen. NestJS bietet viele Integrationen, die die Entwicklung erleichtern. Dazu gehören Authentifizierung, OpenAPI und rollenbasierter Zugriff. Diese Integrationen sind für das System notwendig.
+
+Die Entscheidung für PrimeNG ist auf die UI-Komponenten zurückzuführen. PrimeNG bietet viele UI-Komponenten, die die Entwicklung erleichtern. Dazu gehören Tabellen, Formulare und Dialoge. Diese Komponenten sind für das System notwendig.
+
+Die Entscheidung für NPM ist auf die Paketverwaltung zurückzuführen. NPM ist der Paketmanager für JavaScript und bietet viele Pakete. Diese Pakete können einfach in das System integriert werden.
+
+# Bausteinsicht
+
+Das Gesamtsystem kann in drei Teile unterteilt werden. Dabei handelt es sich um drei verschiedene Container. Es werden folgende Container benötigt, um das System zu verwenden:
+* Datenbank (MongoDB)
+* Backend (NestJS)
+* Frontend (Angular)
+
+![Gesamtsystem](images/Bausteinsicht.png)
+
+In der Bausteinsicht wird ersichtlich, dass die einzelnen Backend-Services grundlegend immer aus demselben Aufbau bestehen. Ein Service hat immer eine Controller-Klasse, eine Service-Klasse und eine DTO-Klasse. Die DTO-Klasse(n) wird(en) verwendet, um Daten zwischen dem Frontend und Backend auszutauschen. Die Service-Klasse enthält die Logik des Services. Die Controller-Klasse enthält die REST-Endpunkte des Services.
+
+Die einzelnen Services enthalten zum Teil auch Tools von Dritten. Der PasswortService verwendet [bcrypt](https://www.npmjs.com/package/bcrypt), eine Standard-Library, um Passwörter zu hashen. Der AuthService verwendet [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken), um Tokens zu erstellen und zu validieren.
+
+Die Services sind möglichst in sich gekapselt und verwenden nur die notwendigen Abhängigkeiten. Dadurch wird die Wartbarkeit und Erweiterbarkeit des Systems gewährleistet. Die Services sind so aufgebaut, dass sie einfach erweitert werden können. Dazu gehören die Erweiterung von REST-Endpunkten oder die Erweiterung von Logik.
+
+## Gesamtsystem
+
+![Gesamtsystem](images/Gesamtsystem.png)
+
+Das Gesamtsystem wird in drei Teile unterteilt. Dabei handelt es sich um drei verschiedene Container. Es werden folgende Container benötigt, um das System zu verwenden. Die einzelnen Container sind im öffentlichen Docker Hub verfügbar.
+
+| `Containername` | `Docker Hub`                              | `Beschreibung`  |
+|:----------------|:------------------------------------------|:----------------|
+| `Datenbank`     | `mongodb/mongodb-community-server:latest` | `Datenbank`     |
+| `Backend`       | `flawas/weblab-backend:latest`            | `Backend`       |
+| `Frontend`      | `flawas/weblab-frontend:latest`           | `Frontend`      |
+
+
+Die Zerlegung in Frontend und Backend macht Sinn, da die beiden Teile unabhängig voneinander entwickelt werden können. Das Frontend kann unabhängig vom Backend entwickelt werden. Das Backend kann unabhängig vom Frontend entwickelt werden. Dadurch wird die Entwicklung beschleunigt und die Wartbarkeit erhöht. Es ermöglicht zudem auch die Austauschbarkeit der beiden Teile. Das Frontend kann beispielsweise einfach durch ein anderes Frontend ersetzt werden. 
+
+
+### Wichtige Schnittstellen Backend
 
 #### Kategorien
 ````
 * GET /technologies
 ````
-  | Parameter | Type      | Description    |
+| Parameter | Type      | Description    |
   |:----------|:----------|:---------------|
-  | `request` | `request` | **Required**.  |
+| `request` | `request` | **Required**.  |
 ````
 * GET /technologies/{id}
 ````
@@ -398,522 +455,231 @@ ComparePasswordHash:
 }
 ````
 
-# Lösungsstrategie
-Das System wurde in drei Teile unterteilt. Dies umfasst folgende Teile:
-
-* Datenbank
-* Backend
-* Frontend
-
-Als Datenbank wird eine MongoDB-Datenbank verwendet. Diese kann in einem Docker-Container oder lokal betrieben werden.
-
-Das Backend und Frontend wird in je seperaten Docker Containern betrieben und basiert auf [NPM](https://www.npmjs.com) und [TypeScript](https://www.typescriptlang.org). Das Backend ist in [NestJS](https://nestjs.com) geschrieben. Die Entscheidung für das Backend ist auf NestJS gefallen, da das Framework viele Integrationen besitzt. Dazu gehören Integrationen wie Authentifizierung, OpenAPI und rollenbasierter Zugriff. Das Frontend basiert auf einem Template von [PrimeNG](https://primeng.org). Bei PrimeNG handelt es sich um eine UI-Suite für Angular.
-
-Die Idee der Dockerisierung kam schon relativ zu Beginn auf. Der Hintergedanke ist dabei die einfache Bereitstellung des Systems. Durch die Dockerisierung kann das System einfach auf einem Server bereitgestellt werden. Dabei ist es egal, ob es sich um einen Server in der Cloud oder lokal handelt.
-
-Die Entscheidung für TypeScript ist auf die Typsicherheit zurückzuführen. TypeScript ist eine Erweiterung von JavaScript und bietet die Möglichkeit, Typen zu definieren. Dies erleichtert die Entwicklung und verhindert Fehler.
-
-Die Entscheidung für MongoDB ist auf die Flexibilität zurückzuführen. MongoDB ist eine NoSQL-Datenbank und speichert Daten in Dokumenten. Dies ermöglicht eine flexible Speicherung von Daten. Dabei ist es egal, ob die Datenstruktur sich ändert. MongoDB ist in der Lage, die Daten flexibel zu speichern.
-
-Die Entscheidung für NestJS ist auf die Integrationen zurückzuführen. NestJS bietet viele Integrationen, die die Entwicklung erleichtern. Dazu gehören Authentifizierung, OpenAPI und rollenbasierter Zugriff. Diese Integrationen sind für das System notwendig.
-
-Die Entscheidung für PrimeNG ist auf die UI-Komponenten zurückzuführen. PrimeNG bietet viele UI-Komponenten, die die Entwicklung erleichtern. Dazu gehören Tabellen, Formulare und Dialoge. Diese Komponenten sind für das System notwendig.
-
-Die Entscheidung für NPM ist auf die Paketverwaltung zurückzuführen. NPM ist der Paketmanager für JavaScript und bietet viele Pakete. Diese Pakete können einfach in das System integriert werden.
-
-# Bausteinsicht
-
-Das Gesamtsystem kann in drei Teile unterteilt werden. Dabei handelt es sich um drei verschiedene Container. Es werden folgende Container benötigt, um das System zu verwenden:
-* Datenbank (MongoDB)
-* Backend (NestJS)
-* Frontend (Angular)
-
-![Gesamtsystem](images/Bausteinsicht.png)
-
-::: formalpara-title
-**Inhalt**
-:::
-
-Die Bausteinsicht zeigt die statische Zerlegung des Systems in Bausteine
-(Module, Komponenten, Subsysteme, Klassen, Schnittstellen, Pakete,
-Bibliotheken, Frameworks, Schichten, Partitionen, Tiers, Funktionen,
-Makros, Operationen, Datenstrukturen, ...) sowie deren Abhängigkeiten
-(Beziehungen, Assoziationen, ...)
-
-Diese Sicht sollte in jeder Architekturdokumentation vorhanden sein. In
-der Analogie zum Hausbau bildet die Bausteinsicht den *Grundrissplan*.
-
-::: formalpara-title
-**Motivation**
-:::
-
-Behalten Sie den Überblick über den Quellcode, indem Sie die statische
-Struktur des Systems durch Abstraktion verständlich machen.
-
-Damit ermöglichen Sie Kommunikation auf abstrakterer Ebene, ohne zu
-viele Implementierungsdetails offenlegen zu müssen.
-
-::: formalpara-title
-**Form**
-:::
-
-Die Bausteinsicht ist eine hierarchische Sammlung von Blackboxen und
-Whiteboxen (siehe Abbildung unten) und deren Beschreibungen.
-
-![Hierarchie in der Bausteinsicht](images/05_building_blocks-DE.png)
-
-**Ebene 1** ist die Whitebox-Beschreibung des Gesamtsystems, zusammen
-mit Blackbox-Beschreibungen der darin enthaltenen Bausteine.
-
-**Ebene 2** zoomt in einige Bausteine der Ebene 1 hinein. Sie enthält
-somit die Whitebox-Beschreibungen ausgewählter Bausteine der Ebene 1,
-jeweils zusammen mit Blackbox-Beschreibungen darin enthaltener
-Bausteine.
-
-**Ebene 3** zoomt in einige Bausteine der Ebene 2 hinein, usw.
-
-Siehe [Bausteinsicht](https://docs.arc42.org/section-5/) in der
-online-Dokumentation (auf Englisch!).
-
-## Whitebox Gesamtsystem {#_whitebox_gesamtsystem}
-
-An dieser Stelle beschreiben Sie die Zerlegung des Gesamtsystems anhand
-des nachfolgenden Whitebox-Templates. Dieses enthält:
-
--   Ein Übersichtsdiagramm
-
--   die Begründung dieser Zerlegung
-
--   Blackbox-Beschreibungen der hier enthaltenen Bausteine. Dafür haben
-    Sie verschiedene Optionen:
-
-    -   in *einer* Tabelle, gibt einen kurzen und pragmatischen
-        Überblick über die enthaltenen Bausteine sowie deren
-        Schnittstellen.
-
-    -   als Liste von Blackbox-Beschreibungen der Bausteine, gemäß dem
-        Blackbox-Template (siehe unten). Diese Liste können Sie, je nach
-        Werkzeug, etwa in Form von Unterkapiteln (Text), Unter-Seiten
-        (Wiki) oder geschachtelten Elementen (Modellierungswerkzeug)
-        darstellen.
-
--   (optional:) wichtige Schnittstellen, die nicht bereits im
-    Blackbox-Template eines der Bausteine erläutert werden, aber für das
-    Verständnis der Whitebox von zentraler Bedeutung sind. Aufgrund der
-    vielfältigen Möglichkeiten oder Ausprägungen von Schnittstellen
-    geben wir hierzu kein weiteres Template vor. Im schlimmsten Fall
-    müssen Sie Syntax, Semantik, Protokolle, Fehlerverhalten,
-    Restriktionen, Versionen, Qualitätseigenschaften, notwendige
-    Kompatibilitäten und vieles mehr spezifizieren oder beschreiben. Im
-    besten Fall kommen Sie mit Beispielen oder einfachen Signaturen
-    zurecht.
-
-***\<Übersichtsdiagramm>***
-
-Begründung
-
-:   *\<Erläuternder Text>*
-
-Enthaltene Bausteine
-
-:   *\<Beschreibung der enthaltenen Bausteine (Blackboxen)>*
-
-Wichtige Schnittstellen
-
-:   *\<Beschreibung wichtiger Schnittstellen>*
-
-Hier folgen jetzt Erläuterungen zu Blackboxen der Ebene 1.
-
-Falls Sie die tabellarische Beschreibung wählen, so werden Blackboxen
-darin nur mit Name und Verantwortung nach folgendem Muster beschrieben:
-
-+-----------------------+-----------------------------------------------+
-| **Name**              | **Verantwortung**                             |
-+=======================+===============================================+
-| *\<Blackbox 1>*       |  *\<Text>*                                    |
-+-----------------------+-----------------------------------------------+
-| *\<Blackbox 2>*       |  *\<Text>*                                    |
-+-----------------------+-----------------------------------------------+
-
-Falls Sie die ausführliche Liste von Blackbox-Beschreibungen wählen,
-beschreiben Sie jede wichtige Blackbox in einem eigenen
-Blackbox-Template. Dessen Überschrift ist jeweils der Namen dieser
-Blackbox.
-
-### \<Name Blackbox 1> {#__name_blackbox_1}
-
-Beschreiben Sie die \<Blackbox 1> anhand des folgenden
-Blackbox-Templates:
-
--   Zweck/Verantwortung
-
--   Schnittstelle(n), sofern diese nicht als eigenständige
-    Beschreibungen herausgezogen sind. Hierzu gehören eventuell auch
-    Qualitäts- und Leistungsmerkmale dieser Schnittstelle.
-
--   (Optional) Qualitäts-/Leistungsmerkmale der Blackbox, beispielsweise
-    Verfügbarkeit, Laufzeitverhalten o. Ä.
-
--   (Optional) Ablageort/Datei(en)
-
--   (Optional) Erfüllte Anforderungen, falls Sie Traceability zu
-    Anforderungen benötigen.
-
--   (Optional) Offene Punkte/Probleme/Risiken
-
-*\<Zweck/Verantwortung>*
-
-*\<Schnittstelle(n)>*
-
-*\<(Optional) Qualitäts-/Leistungsmerkmale>*
-
-*\<(Optional) Ablageort/Datei(en)>*
-
-*\<(Optional) Erfüllte Anforderungen>*
-
-*\<(optional) Offene Punkte/Probleme/Risiken>*
-
-### \<Name Blackbox 2> {#__name_blackbox_2}
-
-*\<Blackbox-Template>*
-
-### \<Name Blackbox n> {#__name_blackbox_n}
-
-*\<Blackbox-Template>*
-
-### \<Name Schnittstelle 1> {#__name_schnittstelle_1}
-
-...
-
-### \<Name Schnittstelle m> {#__name_schnittstelle_m}
-
-## Ebene 2 {#_ebene_2}
-
-Beschreiben Sie den inneren Aufbau (einiger) Bausteine aus Ebene 1 als
-Whitebox.
-
-Welche Bausteine Ihres Systems Sie hier beschreiben, müssen Sie selbst
-entscheiden. Bitte stellen Sie dabei Relevanz vor Vollständigkeit.
-Skizzieren Sie wichtige, überraschende, riskante, komplexe oder
-besonders volatile Bausteine. Normale, einfache oder standardisierte
-Teile sollten Sie weglassen.
-
-### Whitebox *\<Baustein 1>* {#_whitebox_emphasis_baustein_1_emphasis}
-
-...zeigt das Innenleben von *Baustein 1*.
-
-*\<Whitebox-Template>*
-
-### Whitebox *\<Baustein 2>* {#_whitebox_emphasis_baustein_2_emphasis}
-
-*\<Whitebox-Template>*
-
-...
-
-### Whitebox *\<Baustein m>* {#_whitebox_emphasis_baustein_m_emphasis}
-
-*\<Whitebox-Template>*
-
-## Ebene 3 {#_ebene_3}
-
-Beschreiben Sie den inneren Aufbau (einiger) Bausteine aus Ebene 2 als
-Whitebox.
-
-Bei tieferen Gliederungen der Architektur kopieren Sie diesen Teil von
-arc42 für die weiteren Ebenen.
-
-### Whitebox \<\_Baustein x.1\_\> {#_whitebox_baustein_x_1}
-
-...zeigt das Innenleben von *Baustein x.1*.
-
-*\<Whitebox-Template>*
-
-### Whitebox \<\_Baustein x.2\_\> {#_whitebox_baustein_x_2}
-
-*\<Whitebox-Template>*
-
-### Whitebox \<\_Baustein y.1\_\> {#_whitebox_baustein_y_1}
-
-*\<Whitebox-Template>*
-
-# Laufzeitsicht {#section-runtime-view}
-
-::: formalpara-title
-**Inhalt**
-:::
-
-Diese Sicht erklärt konkrete Abläufe und Beziehungen zwischen Bausteinen
-in Form von Szenarien aus den folgenden Bereichen:
-
--   Wichtige Abläufe oder *Features*: Wie führen die Bausteine der
-    Architektur die wichtigsten Abläufe durch?
-
--   Interaktionen an kritischen externen Schnittstellen: Wie arbeiten
-    Bausteine mit Nutzern und Nachbarsystemen zusammen?
-
--   Betrieb und Administration: Inbetriebnahme, Start, Stop.
-
--   Fehler- und Ausnahmeszenarien
-
-Anmerkung: Das Kriterium für die Auswahl der möglichen Szenarien (d.h.
-Abläufe) des Systems ist deren Architekturrelevanz. Es geht nicht darum,
-möglichst viele Abläufe darzustellen, sondern eine angemessene Auswahl
-zu dokumentieren.
-
-::: formalpara-title
-**Motivation**
-:::
-
-Sie sollten verstehen, wie (Instanzen von) Bausteine(n) Ihres Systems
-ihre jeweiligen Aufgaben erfüllen und zur Laufzeit miteinander
-kommunizieren.
-
-Nutzen Sie diese Szenarien in der Dokumentation hauptsächlich für eine
-verständlichere Kommunikation mit denjenigen Stakeholdern, die die
-statischen Modelle (z.B. Bausteinsicht, Verteilungssicht) weniger
-verständlich finden.
-
-::: formalpara-title
-**Form**
-:::
-
-Für die Beschreibung von Szenarien gibt es zahlreiche
-Ausdrucksmöglichkeiten. Nutzen Sie beispielsweise:
-
--   Nummerierte Schrittfolgen oder Aufzählungen in Umgangssprache
-
--   Aktivitäts- oder Flussdiagramme
-
--   Sequenzdiagramme
-
--   BPMN (Geschäftsprozessmodell und -notation) oder EPKs
-    (Ereignis-Prozessketten)
-
--   Zustandsautomaten
-
--   ...
-
-Siehe [Laufzeitsicht](https://docs.arc42.org/section-6/) in der
-online-Dokumentation (auf Englisch!).
-
-## *\<Bezeichnung Laufzeitszenario 1>* {#__emphasis_bezeichnung_laufzeitszenario_1_emphasis}
-
--   \<hier Laufzeitdiagramm oder Ablaufbeschreibung einfügen>
-
--   \<hier Besonderheiten bei dem Zusammenspiel der Bausteine in diesem
-    Szenario erläutern>
-
-## *\<Bezeichnung Laufzeitszenario 2>* {#__emphasis_bezeichnung_laufzeitszenario_2_emphasis}
-
-...
-
-## *\<Bezeichnung Laufzeitszenario n>* {#__emphasis_bezeichnung_laufzeitszenario_n_emphasis}
-
-...
-
-# Verteilungssicht {#section-deployment-view}
-
-::: formalpara-title
-**Inhalt**
-:::
-
-Die Verteilungssicht beschreibt:
-
-1.  die technische Infrastruktur, auf der Ihr System ausgeführt wird,
-    mit Infrastrukturelementen wie Standorten, Umgebungen, Rechnern,
-    Prozessoren, Kanälen und Netztopologien sowie sonstigen
-    Bestandteilen, und
-
-2.  die Abbildung von (Software-)Bausteinen auf diese Infrastruktur.
-
-Häufig laufen Systeme in unterschiedlichen Umgebungen, beispielsweise
-Entwicklung-/Test- oder Produktionsumgebungen. In solchen Fällen sollten
-Sie alle relevanten Umgebungen aufzeigen.
-
-Nutzen Sie die Verteilungssicht insbesondere dann, wenn Ihre Software
-auf mehr als einem Rechner, Prozessor, Server oder Container abläuft
-oder Sie Ihre Hardware sogar selbst konstruieren.
-
-Aus Softwaresicht genügt es, auf die Aspekte zu achten, die für die
-Softwareverteilung relevant sind. Insbesondere bei der
-Hardwareentwicklung kann es notwendig sein, die Infrastruktur mit
-beliebigen Details zu beschreiben.
-
-::: formalpara-title
-**Motivation**
-:::
-
-Software läuft nicht ohne Infrastruktur. Diese zugrundeliegende
-Infrastruktur beeinflusst Ihr System und/oder querschnittliche
-Lösungskonzepte, daher müssen Sie diese Infrastruktur kennen.
-
-::: formalpara-title
-**Form**
-:::
-
-Das oberste Verteilungsdiagramm könnte bereits in Ihrem technischen
-Kontext enthalten sein, mit Ihrer Infrastruktur als EINE Blackbox. Jetzt
-zoomen Sie in diese Infrastruktur mit weiteren Verteilungsdiagrammen
-hinein:
-
--   Die UML stellt mit Verteilungsdiagrammen (Deployment diagrams) eine
-    Diagrammart zur Verfügung, um diese Sicht auszudrücken. Nutzen Sie
-    diese, evtl. auch geschachtelt, wenn Ihre Verteilungsstruktur es
-    verlangt.
-
--   Falls Ihre Infrastruktur-Stakeholder andere Diagrammarten
-    bevorzugen, die beispielsweise Prozessoren und Kanäle zeigen, sind
-    diese hier ebenfalls einsetzbar.
-
-Siehe [Verteilungssicht](https://docs.arc42.org/section-7/) in der
-online-Dokumentation (auf Englisch!).
-
-## Infrastruktur Ebene 1 {#_infrastruktur_ebene_1}
-
-An dieser Stelle beschreiben Sie (als Kombination von Diagrammen mit
-Tabellen oder Texten):
-
--   die Verteilung des Gesamtsystems auf mehrere Standorte, Umgebungen,
-    Rechner, Prozessoren o. Ä., sowie die physischen Verbindungskanäle
-    zwischen diesen,
-
--   wichtige Begründungen für diese Verteilungsstruktur,
-
--   Qualitäts- und/oder Leistungsmerkmale dieser Infrastruktur,
-
--   Zuordnung von Softwareartefakten zu Bestandteilen der Infrastruktur
-
-Für mehrere Umgebungen oder alternative Deployments kopieren Sie diesen
-Teil von arc42 für alle wichtigen Umgebungen/Varianten.
-
-***\<Übersichtsdiagramm>***
-
-Begründung
-
-:   *\<Erläuternder Text>*
-
-Qualitäts- und/oder Leistungsmerkmale
-
-:   *\<Erläuternder Text>*
-
-Zuordnung von Bausteinen zu Infrastruktur
-
-:   *\<Beschreibung der Zuordnung>*
-
-## Infrastruktur Ebene 2 {#_infrastruktur_ebene_2}
-
-An dieser Stelle können Sie den inneren Aufbau (einiger)
-Infrastrukturelemente aus Ebene 1 beschreiben.
-
-Für jedes Infrastrukturelement kopieren Sie die Struktur aus Ebene 1.
-
-### *\<Infrastrukturelement 1>* {#__emphasis_infrastrukturelement_1_emphasis}
-
-*\<Diagramm + Erläuterungen>*
-
-### *\<Infrastrukturelement 2>* {#__emphasis_infrastrukturelement_2_emphasis}
-
-*\<Diagramm + Erläuterungen>*
-
-...
-
-### *\<Infrastrukturelement n>* {#__emphasis_infrastrukturelement_n_emphasis}
-
-*\<Diagramm + Erläuterungen>*
-
-# Querschnittliche Konzepte {#section-concepts}
-
-::: formalpara-title
-**Inhalt**
-:::
-
-Dieser Abschnitt beschreibt übergreifende, prinzipielle Regelungen und
-Lösungsansätze, die an mehreren Stellen (=*querschnittlich*) relevant
-sind.
-
-Solche Konzepte betreffen oft mehrere Bausteine. Dazu können vielerlei
-Themen gehören, beispielsweise:
-
--   Modelle, insbesondere fachliche Modelle
-
--   Architektur- oder Entwurfsmuster
-
--   Regeln für den konkreten Einsatz von Technologien
-
--   prinzipielle --- meist technische --- Festlegungen übergreifender
-    Art
-
--   Implementierungsregeln
-
-::: formalpara-title
-**Motivation**
-:::
-
-Konzepte bilden die Grundlage für *konzeptionelle Integrität*
-(Konsistenz, Homogenität) der Architektur und damit eine wesentliche
-Grundlage für die innere Qualität Ihrer Systeme.
-
-Manche dieser Themen lassen sich nur schwer als Baustein in der
-Architektur unterbringen (z.B. das Thema „Sicherheit").
-
-::: formalpara-title
-**Form**
-:::
-
-Kann vielfältig sein:
-
--   Konzeptpapiere mit beliebiger Gliederung,
-
--   übergreifende Modelle/Szenarien mit Notationen, die Sie auch in den
-    Architektursichten nutzen,
-
--   beispielhafte Implementierung speziell für technische Konzepte,
-
--   Verweise auf „übliche" Nutzung von Standard-Frameworks
-    (beispielsweise die Nutzung von Hibernate als Object/Relational
-    Mapper).
-
-::: formalpara-title
-**Struktur**
-:::
-
-Eine mögliche (nicht aber notwendige!) Untergliederung dieses
-Abschnittes könnte wie folgt aussehen (wobei die Zuordnung von Themen zu
-den Gruppen nicht immer eindeutig ist):
-
--   Fachliche Konzepte
-
--   User Experience (UX)
-
--   Sicherheitskonzepte (Safety und Security)
-
--   Architektur- und Entwurfsmuster
-
--   Unter-der-Haube
-
--   Entwicklungskonzepte
-
--   Betriebskonzepte
-
-![Possible topics for crosscutting
-concepts](images/08-concepts-DE.drawio.png)
-
-Siehe [Querschnittliche Konzepte](https://docs.arc42.org/section-8/) in
-der online-Dokumentation (auf Englisch).
-
-## *\<Konzept 1>* {#__emphasis_konzept_1_emphasis}
-
-*\<Erklärung>*
-
-## *\<Konzept 2>* {#__emphasis_konzept_2_emphasis}
-
-*\<Erklärung>*
-
-...
-
-## *\<Konzept n>* {#__emphasis_konzept_n_emphasis}
-
-*\<Erklärung>*
+# Laufzeitsicht
+
+Damit das System läuft, braucht es alle drei Container. Die Container haben somit eine Abhängigkeit voneinander. Das Frontend benötigt das Backend, um Daten anzuzeigen. Das Backend benötigt die Datenbank, um Daten zu speichern und zu lesen. Die Datenbank speichert die Daten und stellt sie dem Backend zur Verfügung.
+
+Am  Einfachsten werden die Container mit einer `Docker-Compose.yml` Datei bereitgestellt. Das File kann wie folgt aussehen:
+
+````
+services:
+  mongodb:
+    image: mongodb/mongodb-community-server:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  backend:
+    image: flawas/weblab-backend:latest
+    container_name: weblab-backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    environment:
+      MONGO_URL: mongodb://mongodb:27017/techradardb
+
+  frontend:
+    image: flawas/weblab-frontend:latest
+    container_name: weblab-frontend
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
+````
+> [!NOTE]  
+> Um die Daten persistent zu speichern, sollte die `Docker-Compose.yml` Datei so angepasst werden, dass die Datenbank in einem Volume gespeichert wird.
+
+> [!NOTE]  
+> Um die Ausfallsicherheit zu erhöhen kann in der `Docker-Compose.yml` Datei ein Neustart des Containers im Fehlerfall eingefügt werden.
+
+## Laufzeitsicht Technologie anzeigen
+
+Die Laufzeitsicht "Technologie anzeigen" zeigt auf, was es alles braucht, um eine Technologie anzuzeigen. Dabei wird aufgezeigt, wie die Daten von der Datenbank über das Backend ins Frontend gelangen.
+
+> [!NOTE]  
+> Das Authentifizierung und Autorisierung wird in dieser Laufzeitsicht nicht berücksichtigt.
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant Backend
+    participant Controller
+    participant Service
+    participant Repository
+    participant Database
+
+    User->>Frontend: Send GET /technologies request
+    Frontend->>Backend: Forward GET /technologies request
+    Backend->>Controller: Forward request to TechnologiesController
+    Controller->>Service: Call TechnologiesService.getTechnologies()
+    Service->>Repository: Call TechnologiesRepository.findAll()
+    Repository->>Database: Query all technologies
+    Database-->>Repository: Return technologies data
+    Repository-->>Service: Return technologies data
+    Service-->>Controller: Return technologies data
+    Controller-->>Backend: Return technologies data
+    Backend-->>Frontend: Return technologies data
+    Frontend-->>User: Display technologies data
+```
+
+## Laufzeitsicht Login 
+
+Beim Login wird ersichtlich, dass der Benutzername und das Passwort an den Backend-Service übergeben werden. Der Service prüft, ob die Daten korrekt sind. Ist dies der Fall, wird ein Token erstellt und zurückgegeben. Der Token wird im Frontend gespeichert und bei jedem weiteren Request mitgesendet. Somit muss der Benutzer sich nicht bei jedem Request erneut anmelden.
+
+```mermaid
+
+````mermaid
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant Backend
+    participant AuthController
+    participant AuthService
+    participant UsersService
+    participant PasswordsService
+    participant LogService
+    participant JwtService
+
+    User->>Frontend: Send POST /auth/login request
+    Frontend->>Backend: Forward POST /auth/login request
+    Backend->>AuthController: Forward request to AuthController
+    AuthController->>AuthService: Call AuthService.signIn()
+    AuthService->>UsersService: Call UsersService.findOneByUsername()
+    UsersService-->>AuthService: Return user data
+    AuthService->>PasswordsService: Call PasswordsService.compare()
+    PasswordsService-->>AuthService: Return comparison result
+    AuthService->>LogService: Call LogService.create() with login success log
+    LogService-->>AuthService: Log created
+    AuthService->>JwtService: Call JwtService.signAsync()
+    JwtService-->>AuthService: Return JWT token
+    AuthService-->>AuthController: Return JWT token
+    AuthController-->>Backend: Return JWT token
+    Backend-->>Frontend: Return JWT token
+    Frontend-->>User: Display JWT token
+````
+
+# Verteilungssicht
+
+Die Verteilungssicht zeigt nochmals auf, dass es am Einfachsten ist, alle Container auf einem Docker-Host bereitzustellen. Es besteht aber die Möglichkeit, die einzelnen Container verteilt auf mehreren Hosts zu betreiben. Dabei ist es wichtig, dass die Container miteinander kommunizieren können.
+
+````mermaid
+graph TD
+    subgraph Docker Host
+        subgraph MongoDB Container
+            Mongodb[(MongoDB)]
+        end
+        subgraph Backend Container
+            Backend[(NestJS Backend)]
+        end
+        subgraph Frontend Container
+            Frontend[(Angular Frontend)]
+        end
+    end
+
+    Mongodb <--> Backend
+    Backend <--> Frontend
+    User --> Frontend
+````
+
+# Querschnittliche Konzepte
+
+## Data Transfer Object (DTO)
+Das DTO (Data Transfer Object) Muster wird verwendet, um Daten zwischen verschiedenen Schichten einer Anwendung zu übertragen. Es dient dazu, Daten in einer strukturierten Form zu kapseln und zu transportieren, ohne dass die zugrunde liegende Geschäftslogik oder Datenbankstruktur offengelegt wird.  
+Vorteile des DTO-Musters:
+* Kapselung: DTOs kapseln die Daten und verhindern, dass die interne Struktur der Datenbank oder Geschäftslogik offengelegt wird.
+* Reduzierung der Datenmenge: DTOs können nur die benötigten Daten enthalten, was die Menge der übertragenen Daten reduziert.
+* Trennung der Schichten: DTOs ermöglichen eine klare Trennung zwischen den verschiedenen Schichten der Anwendung (z.B. Präsentationsschicht, Geschäftsschicht, Datenzugriffsschicht).
+
+## HTTP
+Das HTTP-Muster bezieht sich auf die Verwendung des Hypertext Transfer Protocol (HTTP) zur Kommunikation zwischen Client und Server in Webanwendungen. Es umfasst verschiedene Methoden, Statuscodes und Header, die zur Steuerung des Datenflusses und zur Definition der Interaktionen verwendet werden.  
+HTTP-Methoden
+* GET: Ruft Daten vom Server ab. Wird verwendet, um Ressourcen zu lesen.
+* POST: Sendet Daten an den Server, um eine neue Ressource zu erstellen.
+* PUT: Aktualisiert eine bestehende Ressource vollständig.
+* PATCH: Aktualisiert eine bestehende Ressource teilweise.
+* DELETE: Löscht eine Ressource vom Server.
+HTTP-Statuscodes
+* 200 OK: Die Anfrage war erfolgreich.
+* 201 Created: Eine neue Ressource wurde erfolgreich erstellt.
+* 400 Bad Request: Die Anfrage war fehlerhaft.
+* 401 Unauthorized: Authentifizierung ist erforderlich.
+* 403 Forbidden: Zugriff auf die Ressource ist verboten.
+* 404 Not Found: Die angeforderte Ressource wurde nicht gefunden.
+* 500 Internal Server Error: Ein Serverfehler ist aufgetreten.
+
+HTTP-Header
+* Content-Type: Gibt den Medientyp der Ressource an (z.B. application/json).
+* Authorization: Enthält Anmeldeinformationen zur Authentifizierung.
+
+### Beispiel
+Ein Beispiel für eine HTTP-Interaktion könnte ein Login-Prozess sein:
+#### Anfrage (Request)
+````
+POST /auth/login HTTP/1.1
+Host: example.com
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "testpassword"
+}
+````
+
+#### Antwort (Response)
+````
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+````
+
+## CRUD
+CRUD stands for Create, Read, Update, and Delete. These are the four basic operations that can be performed on data in a database or a persistent storage system. Each operation corresponds to a specific HTTP method when working with RESTful APIs.
+
+### CRUD-Operations
+Create: Adds a new record to the database.  
+* HTTP Method: POST
+* Example: Creating a new user.
+````
+POST /users
+Content-Type: application/json
+
+{
+  "username": "newuser",
+  "password": "password123",
+  "email": "newuser@example.com"
+}
+````
+Read: Retrieves data from the database.  
+* HTTP Method: GET
+* Example: Fetching a list of users.
+````
+GET /users
+````
+
+Update: Modifies an existing record in the database.
+* HTTP Method: PUT or PATCH
+* Example: Updating a user's email.
+````
+PATCH /users/1
+Content-Type: application/json
+
+{
+  "email": "updateduser@example.com"
+}
+````
+Delete: Removes a record from the database.
+* HTTP Method: DELETE
+* Example: Deleting a user.
+````
+DELETE /users/1
+````
 
 # Architekturentscheidungen {#section-design-decisions}
 
@@ -986,134 +752,55 @@ Qualitätsanforderungen kennen, möglichst konkret und operationalisiert.
 Siehe [Qualitätsanforderungen](https://docs.arc42.org/section-10/) in
 der online-Dokumentation (auf Englisch!).
 
-## Qualitätsbaum {#_qualit_tsbaum}
+## Qualitätsbaum
+1. Performance: Der Technologie-Radar-Viewer soll innert 1s geladen sein.
+2. Usability: Der Technologie-Radar-Viewer soll neben der Desktop-Ansicht auch für die Mobile-Ansicht optimiert sein.
+3. Security: Sämtliche Anmeldungen an die Technologie-Radar-Administration werden aufgezeichnet.
 
-::: formalpara-title
-**Inhalt**
-:::
+````mermaid
+graph TD
+    Qualität
+    Qualität --> Performance
+    Performance --> "Viewer soll innert 1s geladen sein"
+    Qualität --> Usability
+    Usability --> "Viewer soll für Mobile-Ansicht optimiert sein"
+    Qualität --> Security
+    Security --> "Anmeldungen an Administration werden aufgezeichnet"
+````
 
-Der Qualitätsbaum (à la ATAM) mit Qualitätsszenarien an den Blättern.
+## Qualitätsszenarien
+hre Qualitätsszenarien sind konkrete Beschreibungen, wie das System auf bestimmte Auslöser reagieren soll. Basierend auf den Qualitätszielen in Ihrem Projekt sind die Qualitätsszenarien wie folgt:
+Nutzungsszenarien
+1. Performance:  
+* Szenario: Ein Benutzer öffnet den Technologie-Radar-Viewer.
+* Erwartung: Der Technologie-Radar-Viewer wird innerhalb von 1 Sekunde geladen.
+2. Usability:  
+* Szenario: Ein Benutzer öffnet den Technologie-Radar-Viewer auf einem mobilen Gerät.
+* Erwartung: Der Technologie-Radar-Viewer ist für die Mobile-Ansicht optimiert und benutzerfreundlich.
+3. Security:  
+* Szenario: Ein Benutzer meldet sich an der Technologie-Radar-Administration an.
+* Erwartung: Die Anmeldung wird aufgezeichnet und in den Logs gespeichert.
 
-::: formalpara-title
-**Motivation**
-:::
+Änderungsszenarien
+1. Performance:  
+* Szenario: Die Anzahl der Technologien im Radar wird verdoppelt.
+* Erwartung: Der Technologie-Radar-Viewer wird weiterhin innerhalb von 1 Sekunde geladen.
+2. Usability:  
+* Szenario: Eine neue Funktionalität wird hinzugefügt, die eine zusätzliche Benutzerinteraktion erfordert.
+* Erwartung: Die Benutzerfreundlichkeit bleibt erhalten, und die neue Funktionalität ist sowohl auf Desktop- als auch auf mobilen Geräten leicht zugänglich.
+3. Security:
+* Szenario: Ein Sicherheitsupdate wird implementiert.
+* Erwartung: Alle Anmeldungen und sicherheitsrelevanten Aktionen werden weiterhin korrekt aufgezeichnet und überwacht.
 
-Die mit Prioritäten versehene Baumstruktur gibt Überblick über
-die --- oftmals zahlreichen --- Qualitätsanforderungen.
+# Risiken und technische Schulden
 
--   Baumartige Verfeinerung des Begriffes „Qualität", mit „Qualität"
-    oder „Nützlichkeit" als Wurzel.
+## Risiken
+Das ganze Konstrukt läuft gut, jedoch sollte man beachten, dass dieses nicht direkt ins Internet gehängt werden sollte. Es müssen zwingend Verbesserungen in der Sicherheit erleidgt werden, bevor ein solches System über das Internet erreichbar ist. Beispielsweise sollte die Authentifizierung und Autorisierung verbessert werden.
 
--   Mindmap mit Qualitätsoberbegriffen als Hauptzweige
+## Technische Schulden
+### Testing
+Das Testing wurde lediglich auf Backend-Ebene teilweise gemacht. Dies hat dem zeitlichen Aspekt zu schulden. Die Tests wurden in Postman integriert und sind öffentlich abrufbar: 
 
-In jedem Fall sollten Sie hier Verweise auf die Qualitätsszenarien des
-folgenden Abschnittes aufnehmen.
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/1f
 
-## Qualitätsszenarien {#_qualit_tsszenarien}
-
-::: formalpara-title
-**Inhalt**
-:::
-
-Konkretisierung der (in der Praxis oftmals vagen oder impliziten)
-Qualitätsanforderungen durch (Qualitäts-)Szenarien.
-
-Diese Szenarien beschreiben, was beim Eintreffen eines Stimulus auf ein
-System in bestimmten Situationen geschieht.
-
-Wesentlich sind zwei Arten von Szenarien:
-
--   Nutzungsszenarien (auch bekannt als Anwendungs- oder
-    Anwendungsfallszenarien) beschreiben, wie das System zur Laufzeit
-    auf einen bestimmten Auslöser reagieren soll. Hierunter fallen auch
-    Szenarien zur Beschreibung von Effizienz oder Performance. Beispiel:
-    Das System beantwortet eine Benutzeranfrage innerhalb einer Sekunde.
-
--   Änderungsszenarien beschreiben eine Modifikation des Systems oder
-    seiner unmittelbaren Umgebung. Beispiel: Eine zusätzliche
-    Funktionalität wird implementiert oder die Anforderung an ein
-    Qualitätsmerkmal ändert sich.
-
-::: formalpara-title
-**Motivation**
-:::
-
-Szenarien operationalisieren Qualitätsanforderungen und machen deren
-Erfüllung mess- oder entscheidbar.
-
-Insbesondere wenn Sie die Qualität Ihrer Architektur mit Methoden wie
-ATAM überprüfen wollen, bedürfen die in Abschnitt 1.2 genannten
-Qualitätsziele einer weiteren Präzisierung bis auf die Ebene von
-diskutierbaren und nachprüfbaren Szenarien.
-
-::: formalpara-title
-**Form**
-:::
-
-Entweder tabellarisch oder als Freitext.
-
-# Risiken und technische Schulden {#section-technical-risks}
-
-::: formalpara-title
-**Inhalt**
-:::
-
-Eine nach Prioritäten geordnete Liste der erkannten Architekturrisiken
-und/oder technischen Schulden.
-
-> Risikomanagement ist Projektmanagement für Erwachsene.
->
-> ---  Tim Lister Atlantic Systems Guild
-
-Unter diesem Motto sollten Sie Architekturrisiken und/oder technische
-Schulden gezielt ermitteln, bewerten und Ihren Management-Stakeholdern
-(z.B. Projektleitung, Product-Owner) transparent machen.
-
-::: formalpara-title
-**Form**
-:::
-
-Liste oder Tabelle von Risiken und/oder technischen Schulden, eventuell
-mit vorgeschlagenen Maßnahmen zur Risikovermeidung, Risikominimierung
-oder dem Abbau der technischen Schulden.
-
-Siehe [Risiken und technische
-Schulden](https://docs.arc42.org/section-11/) in der
-online-Dokumentation (auf Englisch!).
-
-# Glossar {#section-glossary}
-
-::: formalpara-title
-**Inhalt**
-:::
-
-Die wesentlichen fachlichen und technischen Begriffe, die Stakeholder im
-Zusammenhang mit dem System verwenden.
-
-Nutzen Sie das Glossar ebenfalls als Übersetzungsreferenz, falls Sie in
-mehrsprachigen Teams arbeiten.
-
-::: formalpara-title
-**Motivation**
-:::
-
-Sie sollten relevante Begriffe klar definieren, so dass alle Beteiligten
-
--   diese Begriffe identisch verstehen, und
-
--   vermeiden, mehrere Begriffe für die gleiche Sache zu haben.
-
-Zweispaltige Tabelle mit \<Begriff> und \<Definition>.
-
-Eventuell weitere Spalten mit Übersetzungen, falls notwendig.
-
-Siehe [Glossar](https://docs.arc42.org/section-12/) in der
-online-Dokumentation (auf Englisch!).
-
-+-----------------------+-----------------------------------------------+
-| Begriff               | Definition                                    |
-+=======================+===============================================+
-| *\<Begriff-1>*        | *\<Definition-1>*                             |
-+-----------------------+-----------------------------------------------+
-| *\<Begriff-2*         | *\<Definition-2>*                             |
-+-----------------------+-----------------------------------------------+
+Das Frontend wurde nicht getestet, da die Zeit fehlte. Es wurde jedoch darauf geachtet, dass das Frontend so einfach wie möglich gehalten wurde. Dadurch sollte die Fehleranfälligkeit minimiert werden.
