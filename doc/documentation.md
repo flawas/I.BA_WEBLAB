@@ -804,3 +804,23 @@ Das Testing wurde lediglich auf Backend-Ebene teilweise gemacht. Dies hat dem ze
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/1f
 
 Das Frontend wurde nicht getestet, da die Zeit fehlte. Es wurde jedoch darauf geachtet, dass das Frontend so einfach wie möglich gehalten wurde. Dadurch sollte die Fehleranfälligkeit minimiert werden.
+
+# Arbeitsjournal
+
+| Datum      | Zeit    | Beschreibung                                                                                                                                                                                                            |
+|:-----------|:--------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 05.02.2025 | 5h      | Grundlegender Aufbau der Applikation, Technologies, Ring, Categories Module erstellen, Auth und Users Module importieren                                                                                                |
+| 06.02.2025 | 5h      | Weiterentwicklung Backend                                                                                                                                                                                               |
+| 07.02.2025 | 8h      | Start Frontend Entwicklung, weiterentwicklung Backend                                                                                                                                                                   |
+| 11.02.2025 | 6h      | Frontend Weiterentwickelt, Login Prüfung eingebaut, Registrierung, Token enschlüsselung beim GET-Befehl auf API Ebene um herauszufinden, welcher User den Aufruf gestartet hat und entsprechend ein Resultat zu liefern |
+| 11.02.2025 | 5h      | Template Form erstellt für die Erfassung von Technologien, auslesen der Category und Ring für Dropdown, Dashboard erweitern                                                                                             |
+| 13.02.2025 | 6h      | Allgemeine Arbeiten, Frontend und Backend verbessern                                                                                                                                                                    |
+| 19.02.2025 | 2h      | RingService in Frontend und Backend anpassen, Level einbauen                                                                                                                                                            |
+| 22.02.205  | 6h      | Diverse Verbesserungen im Frontend und Backend                                                                                                                                                                          |
+| 23.02.2025 | 8h      | Backend und Frontend fertigstellen                                                                                                                                                                                      |
+| 24.02.2025 | 6h      | Fixed Role-based access, Frontend Registrierung Fix beim API Aufruf, diverse kleine Verbesserungen                                                                                                                      | 
+| 25.02.2025 | 4h      | Dokumentation erstellen                                                                                                                                                                                                 |
+| 27.02.2025 | 6h      | Dokumentation erstellen                                                                                                                                                                                                 |
+| 28.02.2025 | 4h      | Dokumentation erstellen                                                                                                                                                                                                 |
+| 01.03.2025 | 1h      | Dokumentation fertigstellen und Abgabe                                                                                                                                                                                  |
+| **Total**  | **65h** |                                                                                                                                                                                                                         |
