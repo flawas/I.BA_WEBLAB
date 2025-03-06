@@ -744,7 +744,7 @@ Das ganze Konstrukt läuft gut, jedoch sollte man beachten, dass dieses nicht di
 ### Testing
 Das Testing wurde lediglich auf Backend-Ebene teilweise gemacht. Dies hat dem zeitlichen Aspekt zu schulden. Die Tests wurden in Postman integriert und sind öffentlich abrufbar: 
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/1f
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/weblab-5026/workspace/weblab/collection/33318442-e6445d41-17c1-4c5e-a7dd-3ea80cf1c35c?action=share&creator=33318442)
 
 Das Frontend wurde nicht getestet, da die Zeit fehlte. Es wurde jedoch darauf geachtet, dass das Frontend so einfach wie möglich gehalten wurde. Dadurch sollte die Fehleranfälligkeit minimiert werden.
 
