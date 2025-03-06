@@ -705,11 +705,11 @@ DELETE /users/1
 graph TD
     Qualität
     Qualität --> Performance
-    Performance --> "Viewer soll innert 1s geladen sein"
+    Performance --> Ladezeit
     Qualität --> Usability
-    Usability --> "Viewer soll für Mobile-Ansicht optimiert sein"
+    Usability --> Mobile-Ansicht
     Qualität --> Security
-    Security --> "Anmeldungen an Administration werden aufgezeichnet"
+    Security --> Logging
 ```
 
 ## Qualitätsszenarien
