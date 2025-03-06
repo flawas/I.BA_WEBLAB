@@ -694,7 +694,7 @@ Delete: Removes a record from the database.
 DELETE /users/1
 ````
 
-# Qualitätsanforderungen {#section-quality-scenarios}
+# Qualitätsanforderungen
 
 ## Qualitätsbaum
 1. Performance: Der Technologie-Radar-Viewer soll innert 1s geladen sein.
