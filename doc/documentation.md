@@ -701,7 +701,7 @@ DELETE /users/1
 2. Usability: Der Technologie-Radar-Viewer soll neben der Desktop-Ansicht auch für die Mobile-Ansicht optimiert sein.
 3. Security: Sämtliche Anmeldungen an die Technologie-Radar-Administration werden aufgezeichnet.
 
-````mermaid
+```mermaid
 graph TD
     Qualität
     Qualität --> Performance
@@ -710,7 +710,7 @@ graph TD
     Usability --> "Viewer soll für Mobile-Ansicht optimiert sein"
     Qualität --> Security
     Security --> "Anmeldungen an Administration werden aufgezeichnet"
-````
+```
 
 ## Qualitätsszenarien
 Nutzungsszenarien
