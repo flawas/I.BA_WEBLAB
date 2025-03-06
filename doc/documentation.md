@@ -1,4 +1,19 @@
 # Techradar Dokumentation
+
+# Fazit
+## Was ist gut gelaufen?
+Das Projekt wurde erfolgreich abgeschlossen. Es wurde ein Technologie-Radar-System entwickelt, das es Benutzern ermöglicht, Technologien zu verwalten und anzuzeigen. Das System besteht aus einem Backend-Service, einem Frontend-Client und einer MongoDB-Datenbank. Die Benutzer können Technologien hinzufügen, bearbeiten und löschen. Die Technologien werden in Kategorien und Ringe eingeteilt und können im Technologie-Radar-Viewer angezeigt werden. Die Benutzer können sich auch an der Technologie-Radar-Administration anmelden und die Technologien verwalten. Die Anmeldungen werden aufgezeichnet und in den Logs gespeichert.
+
+Es hat mir Spass gemacht, diese Applikation zu entwickeln. Das Backend zu entwickeln hat mir mehr Freude bereitet, als das Frontend. Im Frontend hatte ich zum Teil mit Anzeigeschwierigkeiten zu Kämpfen. Diese konnte ich jedoch beheben. 
+
+## Wo lagen die Herausforderungen?
+Es gab für mich verschiedene Herausforderungen:
+* Zeitlich alles unter einen Hut zu bekommen mit anderen Abgaben
+* Dokumentation nachführen, dauerte länger als gedacht
+
+## Was würden Sie das nächste Mal anders resp. besser machen?
+Das nächste Mal würde ich bereits früher auch das Frontend mitentwickeln. Also ein Feature im Backend einbauen und dann auch gleich im Frontend. Schlussendlich hatte ich das Backend bereit, jedoch das Frontend noch nicht. 
+
 # Einführung und Ziele
 
 Der Technologie-Radar ist ein passendes Werkzeug für Technologie-Management in einem Unternehmen, für ein Produkte-Team oder auch für sich als Software Architekt oder Software Engineer. Es gibt bereits verschiedene Umsetzungen von Technologie-Radare. Das prominenteste Beispiel ist der Technology Radar von ThoughtWorks.
@@ -679,76 +694,7 @@ Delete: Removes a record from the database.
 DELETE /users/1
 ````
 
-# Architekturentscheidungen {#section-design-decisions}
-
-::: formalpara-title
-**Inhalt**
-:::
-
-Wichtige, teure, große oder riskante Architektur- oder
-Entwurfsentscheidungen inklusive der jeweiligen Begründungen. Mit
-\"Entscheidungen\" meinen wir hier die Auswahl einer von mehreren
-Alternativen unter vorgegebenen Kriterien.
-
-Wägen Sie ab, inwiefern Sie Entscheidungen hier zentral beschreiben,
-oder wo eine lokale Beschreibung (z.B. in der Whitebox-Sicht von
-Bausteinen) sinnvoller ist. Vermeiden Sie Redundanz. Verweisen Sie evtl.
-auf Abschnitt 4, wo schon grundlegende strategische Entscheidungen
-beschrieben wurden.
-
-::: formalpara-title
-**Motivation**
-:::
-
-Stakeholder des Systems sollten wichtige Entscheidungen verstehen und
-nachvollziehen können.
-
-::: formalpara-title
-**Form**
-:::
-
-Verschiedene Möglichkeiten:
-
--   ADR ([Documenting Architecture
-    Decisions](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions))
-    für jede wichtige Entscheidung
-
--   Liste oder Tabelle, nach Wichtigkeit und Tragweite der
-    Entscheidungen geordnet
-
--   ausführlicher in Form einzelner Unterkapitel je Entscheidung
-
-Siehe [Architekturentscheidungen](https://docs.arc42.org/section-9/) in
-der arc42 Dokumentation (auf Englisch!). Dort finden Sie Links und
-Beispiele zum Thema ADR.
-
 # Qualitätsanforderungen {#section-quality-scenarios}
-
-::: formalpara-title
-**Inhalt**
-:::
-
-Dieser Abschnitt enthält möglichst alle Qualitätsanforderungen als
-Qualitätsbaum mit Szenarien. Die wichtigsten davon haben Sie bereits in
-Abschnitt 1.2 (Qualitätsziele) hervorgehoben.
-
-Nehmen Sie hier auch Qualitätsanforderungen geringerer Priorität auf,
-deren Nichteinhaltung oder -erreichung geringe Risiken birgt.
-
-::: formalpara-title
-**Motivation**
-:::
-
-Weil Qualitätsanforderungen die Architekturentscheidungen oft maßgeblich
-beeinflussen, sollten Sie die für Ihre Stakeholder relevanten
-Qualitätsanforderungen kennen, möglichst konkret und operationalisiert.
-
-::: formalpara-title
-**Weiterführende Informationen**
-:::
-
-Siehe [Qualitätsanforderungen](https://docs.arc42.org/section-10/) in
-der online-Dokumentation (auf Englisch!).
 
 ## Qualitätsbaum
 1. Performance: Der Technologie-Radar-Viewer soll innert 1s geladen sein.
@@ -767,7 +713,6 @@ graph TD
 ````
 
 ## Qualitätsszenarien
-hre Qualitätsszenarien sind konkrete Beschreibungen, wie das System auf bestimmte Auslöser reagieren soll. Basierend auf den Qualitätszielen in Ihrem Projekt sind die Qualitätsszenarien wie folgt:
 Nutzungsszenarien
 1. Performance:  
 * Szenario: Ein Benutzer öffnet den Technologie-Radar-Viewer.
