@@ -583,7 +583,7 @@ graph TD
     Mongodb <--> Backend
     Backend <--> Frontend
     User --> Frontend
-````
+```
 
 # Querschnittliche Konzepte
 
