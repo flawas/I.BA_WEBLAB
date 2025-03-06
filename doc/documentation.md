@@ -531,8 +531,6 @@ sequenceDiagram
 Beim Login wird ersichtlich, dass der Benutzername und das Passwort an den Backend-Service übergeben werden. Der Service prüft, ob die Daten korrekt sind. Ist dies der Fall, wird ein Token erstellt und zurückgegeben. Der Token wird im Frontend gespeichert und bei jedem weiteren Request mitgesendet. Somit muss der Benutzer sich nicht bei jedem Request erneut anmelden.
 
 ```mermaid
-
-````mermaid
 sequenceDiagram
     participant User
     participant Frontend
@@ -560,13 +558,13 @@ sequenceDiagram
     AuthController-->>Backend: Return JWT token
     Backend-->>Frontend: Return JWT token
     Frontend-->>User: Display JWT token
-````
+```
 
 # Verteilungssicht
 
 Die Verteilungssicht zeigt nochmals auf, dass es am Einfachsten ist, alle Container auf einem Docker-Host bereitzustellen. Es besteht aber die Möglichkeit, die einzelnen Container verteilt auf mehreren Hosts zu betreiben. Dabei ist es wichtig, dass die Container miteinander kommunizieren können.
 
-````mermaid
+```mermaid
 graph TD
     subgraph Docker Host
         subgraph MongoDB Container
